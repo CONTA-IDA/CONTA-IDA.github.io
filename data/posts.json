@@ -1,5 +1,36 @@
 [
   {
+    "id": "20260613-200958-2019-china-bubblefighter",
+    "date": "2026.06.11",
+    "tag": "2019",
+    "title": "2019 CHINA BubbleFighter",
+    "body": "his is the final Chinese version released in 2019.\nThe Chinese version felt quite unusual to me because of its unique login system, which was very different from what I was used to.\nIt was an interesting experience, and I think being exposed to something new helped me improve my skills and broaden my perspective.\n\n这是 2019 年的中国最终版本。\n由于中国版本采用了一种比较特殊的登录方式，与我平时接触的系统不太一样，所以刚开始接触时让我觉得很新奇。\n通过这样的新体验，我也学到了很多东西，并且提升了自己的能力，我觉得这是一件很不错的事情。\n\n2019 중국 파이날 버전입니다. 중국 버전은 특유의 이상한 로그인 방식으로 인해 익숙하지 않아서 신기했어요 \n새로운 경험을 통해 능력을 기를 수 있게되어 좋은 것 같습니다.",
+    "media": {
+      "type": "gallery",
+      "caption": "",
+      "items": [
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200958-01.png",
+          "alt": "2019 CHINA BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200958-02.png",
+          "alt": "2019 CHINA BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200958-03.png",
+          "alt": "2019 CHINA BubbleFighter",
+          "caption": ""
+        }
+      ]
+    }
+  },
+  {
     "id": "20260613-200159-2011-bubblefighter",
     "date": "2026.04.01",
     "tag": "2011",
