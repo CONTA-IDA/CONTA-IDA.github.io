@@ -302,14 +302,14 @@ button {
   z-index: 4;
   left: 50%;
   top: 50%;
-  width: clamp(34px, 7vw, 72px);
+  width: clamp(42px, 6.2vw, 68px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   opacity: 1;
   pointer-events: none;
-  --orbit-radius: clamp(136px, 23vw, 184px);
-  --orbit-duration: 12s;
+  --orbit-radius: clamp(160px, 26vw, 214px);
+  --orbit-duration: 16s;
   --orbit-delay: 0s;
   transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius));
   animation: satelliteOrbit var(--orbit-duration) linear infinite;
@@ -327,46 +327,33 @@ button {
 }
 
 .orbit-node-ida {
-  --orbit-radius: clamp(144px, 24vw, 194px);
-  --orbit-duration: 12.5s;
-  --orbit-delay: -1.22s;
+  --orbit-delay: 0s;
 }
 
 .orbit-node-ghidra {
-  width: clamp(36px, 7.4vw, 76px);
-  --orbit-radius: clamp(132px, 22vw, 178px);
-  --orbit-duration: 14s;
-  --orbit-delay: -4.36s;
+  --orbit-delay: -3.2s;
 }
 
 .orbit-node-blender {
-  --orbit-radius: clamp(152px, 25vw, 204px);
-  --orbit-duration: 11.6s;
-  --orbit-delay: -6.12s;
+  --orbit-delay: -6.4s;
 }
 
 .orbit-node-x64dbg {
-  width: clamp(32px, 6.4vw, 64px);
-  --orbit-radius: clamp(124px, 21vw, 168px);
-  --orbit-duration: 15.4s;
-  --orbit-delay: -11.55s;
+  --orbit-delay: -9.6s;
 }
 
 .orbit-node-ollydbg {
-  width: clamp(30px, 5vw, 54px);
-  --orbit-radius: clamp(160px, 26vw, 212px);
-  --orbit-duration: 13.2s;
-  --orbit-delay: -11.66s;
+  --orbit-delay: -12.8s;
 }
 
 @keyframes profilePulse {
   0%,
   100% {
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
 
   50% {
-    transform: translateY(-6px) scale(1.02);
+    transform: scale(1.015);
   }
 }
 
@@ -376,9 +363,9 @@ button {
     transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius));
   }
 
-  49% {
+  49.99% {
     z-index: 5;
-    transform: translate(-50%, -50%) rotate(176deg) translateX(var(--orbit-radius));
+    transform: translate(-50%, -50%) rotate(179.96deg) translateX(var(--orbit-radius));
   }
 
   50% {
@@ -386,9 +373,9 @@ button {
     transform: translate(-50%, -50%) rotate(180deg) translateX(var(--orbit-radius));
   }
 
-  99% {
+  99.99% {
     z-index: 1;
-    transform: translate(-50%, -50%) rotate(356deg) translateX(var(--orbit-radius));
+    transform: translate(-50%, -50%) rotate(359.96deg) translateX(var(--orbit-radius));
   }
 
   100% {
@@ -403,8 +390,8 @@ button {
     filter: saturate(1.06) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
   }
 
-  49% {
-    transform: rotate(-176deg) scale(1.08);
+  49.99% {
+    transform: rotate(-179.96deg) scale(1.08);
     filter: saturate(1.06) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
   }
 
@@ -413,8 +400,8 @@ button {
     filter: saturate(0.84) drop-shadow(0 7px 12px rgba(0, 0, 0, 0.18));
   }
 
-  99% {
-    transform: rotate(-356deg) scale(0.84);
+  99.99% {
+    transform: rotate(-359.96deg) scale(0.84);
     filter: saturate(0.84) drop-shadow(0 7px 12px rgba(0, 0, 0, 0.18));
   }
 
