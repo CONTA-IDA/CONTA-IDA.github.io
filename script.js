@@ -718,21 +718,25 @@ const initToolAtom = async () => {
       alpha: true,
     });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.04;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-    camera.position.set(0, 0.25, 8.6);
+    const viewHeight = 4.6;
+    const camera = new THREE.OrthographicCamera(-2.3, 2.3, 2.3, -2.3, 0.1, 100);
+    camera.position.set(0, 0.08, 7.2);
+    camera.lookAt(0, -0.08, 0);
 
     const group = new THREE.Group();
     scene.add(group);
 
-    const ambient = new THREE.AmbientLight(0xf4efe5, 2.25);
-    const key = new THREE.PointLight(0x8ee36d, 3, 12);
-    key.position.set(-3, 3.4, 5.4);
-    const rim = new THREE.PointLight(0x34d1bf, 2.25, 10);
-    rim.position.set(4, -1.2, 4.5);
-    const topFill = new THREE.HemisphereLight(0xffffff, 0x202a1e, 0.62);
-    scene.add(ambient, key, rim, topFill);
+    const ambient = new THREE.HemisphereLight(0xffffff, 0x2b2a24, 1.18);
+    const key = new THREE.DirectionalLight(0xfff2dc, 2.25);
+    key.position.set(-3, 4, 5);
+    const rim = new THREE.DirectionalLight(0xffffff, 0.82);
+    rim.position.set(3, 2, 4);
+    scene.add(ambient, key, rim);
 
     const textureLoader = new THREE.TextureLoader();
     const loadTexture = async (src) => {
@@ -789,6 +793,213 @@ const initToolAtom = async () => {
     };
 
     const createAvatar = () => {
+      {
+        // Rebuild v2: front-readable vinyl figure instead of a flat symbol stack.
+        const avatar = new THREE.Group();
+        avatar.name = "CONTA reference vinyl chibi model";
+        avatar.scale.set(1.34, 1.34, 1.34);
+        avatar.position.set(0, -0.12, 0);
+
+        const mat = {
+          hood: new THREE.MeshPhysicalMaterial({
+            color: 0x25251f,
+            roughness: 0.36,
+            metalness: 0,
+            clearcoat: 0.42,
+            clearcoatRoughness: 0.52,
+          }),
+          hoodDark: new THREE.MeshPhysicalMaterial({
+            color: 0x11120f,
+            roughness: 0.42,
+            metalness: 0,
+            clearcoat: 0.2,
+            clearcoatRoughness: 0.62,
+          }),
+          yellow: makeMaterial(0xf2d65f, { roughness: 0.36, metalness: 0 }),
+          yellowDark: makeMaterial(0xb88928, { roughness: 0.42, metalness: 0.12 }),
+          skin: makeMaterial(0xf6bd87, { roughness: 0.5, metalness: 0 }),
+          face: makeMaterial(0xf8f2e3, { roughness: 0.46, metalness: 0 }),
+          hair: makeMaterial(0xc5864e, { roughness: 0.46, metalness: 0 }),
+          line: makeMaterial(0x11110f, { roughness: 0.52, metalness: 0 }),
+          leaf: makeMaterial(0x7faa7d, { roughness: 0.5, metalness: 0 }),
+          candle: makeMaterial(0xf4ead8, { roughness: 0.52, metalness: 0 }),
+          gold: makeMaterial(0xd49a31, { roughness: 0.4, metalness: 0.18 }),
+          flame: makeMaterial(0xff8b2e, { emissive: 0xff5a1d, emissiveIntensity: 0.62, roughness: 0.42 }),
+          ember: makeMaterial(0xff4d1c, { emissive: 0xff2e15, emissiveIntensity: 0.85, roughness: 0.35 }),
+          smoke: makeMaterial(0xffffff, { transparent: true, opacity: 0.36, roughness: 0.9, metalness: 0 }),
+          gloss: new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18 }),
+        };
+
+        const ellipsoid = (parent, material, position, scale, rotation = [0, 0, 0], segments = [48, 24]) =>
+          addMesh(parent, new THREE.SphereGeometry(1, segments[0], segments[1]), material, position, scale, rotation);
+        const cylinder = (parent, top, bottom, height, material, position, scale = [1, 1, 1], rotation = [0, 0, 0], radial = 36) =>
+          addMesh(parent, new THREE.CylinderGeometry(top, bottom, height, radial), material, position, scale, rotation);
+        const cone = (parent, radius, height, material, position, scale = [1, 1, 1], rotation = [0, 0, 0], radial = 36) =>
+          addMesh(parent, new THREE.ConeGeometry(radius, height, radial), material, position, scale, rotation);
+        const box = (parent, size, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) =>
+          addMesh(parent, new THREE.BoxGeometry(...size), material, position, scale, rotation);
+        const torus = (parent, radius, tube, material, position, scale = [1, 1, 1], rotation = [0, 0, 0], radial = 96) =>
+          addMesh(parent, new THREE.TorusGeometry(radius, tube, 12, radial), material, position, scale, rotation);
+        const extrudeShape = (shape, depth = 0.46) => {
+          const geometry = new THREE.ExtrudeGeometry(shape, {
+            depth,
+            bevelEnabled: true,
+            bevelSize: 0.065,
+            bevelThickness: 0.05,
+            bevelSegments: 7,
+          });
+          geometry.center();
+          return geometry;
+        };
+        const rod = (parent, start, end, radius, material, radial = 16) => {
+          const a = new THREE.Vector3(...start);
+          const b = new THREE.Vector3(...end);
+          const mid = a.clone().add(b).multiplyScalar(0.5);
+          const length = a.distanceTo(b);
+          const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, length, radial), material);
+          mesh.position.copy(mid);
+          mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), b.clone().sub(a).normalize());
+          parent.add(mesh);
+          return mesh;
+        };
+        const tube = (parent, points, radius, material, tubularSegments = 24) => {
+          const curve = new THREE.CatmullRomCurve3(points.map((point) => new THREE.Vector3(...point)));
+          const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubularSegments, radius, 8, false), material);
+          parent.add(mesh);
+          return mesh;
+        };
+
+        const hood = new THREE.Group();
+        const head = new THREE.Group();
+        const body = new THREE.Group();
+        const props = new THREE.Group();
+        const accents = new THREE.Group();
+        avatar.add(hood, head, body, props, accents);
+
+        // Hood/cape: oversized rounded shell with visible side panels and raised cat ears.
+        const hoodProfile = [
+          new THREE.Vector2(0.42, 1.18),
+          new THREE.Vector2(0.72, 0.98),
+          new THREE.Vector2(0.88, 0.28),
+          new THREE.Vector2(0.84, -0.82),
+          new THREE.Vector2(0.68, -1.5),
+          new THREE.Vector2(0.32, -1.64),
+        ];
+        addMesh(hood, new THREE.LatheGeometry(hoodProfile, 72), mat.hood, [0, -0.08, -0.36], [1, 1, 0.62]);
+        ellipsoid(hood, mat.hood, [0, 0.18, -0.5], [0.62, 0.92, 0.22], [0, 0, 0], [36, 18]);
+        ellipsoid(hood, mat.hood, [0, -0.74, -0.5], [0.56, 0.58, 0.2], [0, 0, 0], [36, 18]);
+        ellipsoid(hood, mat.hood, [-0.67, -0.16, 0.08], [0.24, 1.18, 0.22], [0, 0, -0.07]);
+        ellipsoid(hood, mat.hood, [0.67, -0.16, 0.08], [0.24, 1.18, 0.22], [0, 0, 0.07]);
+        ellipsoid(hood, mat.hoodDark, [-0.74, -0.12, 0.2], [0.05, 0.96, 0.05], [0, 0, -0.08], [18, 10]);
+        ellipsoid(hood, mat.hoodDark, [0.74, -0.12, 0.2], [0.05, 0.96, 0.05], [0, 0, 0.08], [18, 10]);
+        tube(hood, [[-0.78, 0.78, 0.18], [-0.86, -0.2, 0.16], [-0.74, -1.4, 0.16]], 0.022, mat.yellowDark, 28);
+        tube(hood, [[0.78, 0.78, 0.18], [0.86, -0.2, 0.16], [0.74, -1.4, 0.16]], 0.022, mat.yellowDark, 28);
+        tube(hood, [[-0.48, -1.58, 0.18], [0, -1.66, 0.18], [0.48, -1.58, 0.18]], 0.022, mat.yellowDark, 20);
+        cone(hood, 0.29, 0.66, mat.hood, [-0.62, 1.12, -0.1], [1, 1, 0.78], [0.12, 0.16, -0.34], 4);
+        cone(hood, 0.29, 0.66, mat.hood, [0.62, 1.12, -0.1], [1, 1, 0.78], [0.12, -0.16, 0.34], 4);
+        cone(hood, 0.16, 0.28, mat.hoodDark, [-0.62, 1.13, 0.04], [1, 1, 0.54], [0.12, 0.16, -0.34], 4);
+        cone(hood, 0.16, 0.28, mat.hoodDark, [0.62, 1.13, 0.04], [1, 1, 0.54], [0.12, -0.16, 0.34], 4);
+        ellipsoid(hood, mat.gloss, [0.34, 0.14, -0.78], [0.08, 0.48, 0.018], [0.16, 0.08, -0.18], [18, 8]);
+        ellipsoid(hood, mat.gloss, [-0.22, -1.06, 0.4], [0.13, 0.05, 0.014], [0, 0, -0.24], [18, 8]);
+
+        // Hair and face: big mask-like lower face, large blank eyes, chunky bangs.
+        ellipsoid(head, mat.hair, [0, 0.24, 0.34], [0.5, 0.62, 0.34]);
+        ellipsoid(head, mat.skin, [0, 0.2, 0.46], [0.43, 0.48, 0.25]);
+        ellipsoid(head, mat.face, [0, -0.05, 0.68], [0.48, 0.28, 0.09], [0, 0, 0], [48, 18]);
+        [
+          [-0.36, 0.2, 0.66, -0.44],
+          [-0.16, 0.22, 0.72, -0.16],
+          [0.07, 0.22, 0.73, 0.06],
+          [0.29, 0.2, 0.68, 0.32],
+        ].forEach(([x, y, z, rz]) => {
+          cone(head, 0.12, 0.46, mat.hair, [x, y, z], [1, 1, 0.56], [0, 0, rz], 28);
+        });
+        ellipsoid(head, mat.hair, [-0.46, -0.28, 0.38], [0.14, 0.82, 0.12], [0, 0, -0.08], [26, 14]);
+        ellipsoid(head, mat.hair, [0.46, -0.28, 0.38], [0.14, 0.82, 0.12], [0, 0, 0.08], [26, 14]);
+        cylinder(head, 0.54, 0.58, 0.2, mat.yellow, [0, 0.66, 0.14], [1.04, 0.78, 0.9], [0, 0, 0], 54);
+        box(head, [0.9, 0.12, 0.09], mat.yellow, [0, 0.56, 0.62]);
+        box(head, [0.3, 0.026, 0.04], mat.line, [0.17, 0.64, 0.68], [1, 1, 1], [0, 0, 0.05]);
+        ellipsoid(head, mat.face, [-0.23, 0.06, 0.8], [0.15, 0.22, 0.028], [0, 0, -0.03], [36, 16]);
+        ellipsoid(head, mat.face, [0.23, 0.06, 0.8], [0.15, 0.22, 0.028], [0, 0, 0.03], [36, 16]);
+        torus(head, 0.16, 0.015, mat.line, [-0.23, 0.06, 0.82], [0.92, 1.32, 0.08]);
+        torus(head, 0.16, 0.015, mat.line, [0.23, 0.06, 0.82], [0.92, 1.32, 0.08]);
+        tube(head, [[-0.4, 0.31, 0.82], [-0.31, 0.38, 0.86], [-0.16, 0.34, 0.86]], 0.018, mat.line);
+        tube(head, [[0.4, 0.31, 0.82], [0.31, 0.38, 0.86], [0.16, 0.34, 0.86]], 0.018, mat.line);
+        tube(head, [[-0.44, -0.12, 0.82], [-0.33, -0.2, 0.86], [-0.18, -0.2, 0.86]], 0.015, mat.line);
+        tube(head, [[0.44, -0.12, 0.82], [0.33, -0.2, 0.86], [0.18, -0.2, 0.86]], 0.015, mat.line);
+
+        // Robe body with collar, tie, trim, shoes.
+        cylinder(body, 0.42, 0.72, 1.1, mat.hood, [0, -1.15, 0.06], [1, 1, 0.82], [0, 0, 0], 54);
+        torus(body, 0.57, 0.025, mat.yellowDark, [0, -1.72, 0.08], [1.2, 0.18, 0.56]);
+        rod(body, [0, -0.72, 0.5], [0, -1.62, 0.58], 0.014, mat.line);
+        ellipsoid(body, mat.face, [-0.2, -0.56, 0.46], [0.24, 0.11, 0.028], [0, 0, -0.25], [26, 10]);
+        ellipsoid(body, mat.face, [0.2, -0.56, 0.46], [0.24, 0.11, 0.028], [0, 0, 0.25], [26, 10]);
+        box(body, [0.1, 0.54, 0.055], mat.face, [-0.11, -0.94, 0.53], [1, 1, 1], [0, 0, -0.22]);
+        box(body, [0.1, 0.54, 0.055], mat.face, [0.11, -0.94, 0.53], [1, 1, 1], [0, 0, 0.22]);
+        ellipsoid(body, mat.leaf, [-0.1, -0.69, 0.55], [0.13, 0.07, 0.026], [0, 0, -0.4], [18, 8]);
+        ellipsoid(body, mat.leaf, [0.1, -0.69, 0.55], [0.13, 0.07, 0.026], [0, 0, 0.4], [18, 8]);
+        ellipsoid(body, mat.hoodDark, [-0.24, -1.9, 0.34], [0.2, 0.08, 0.14], [0, 0, 0.05], [24, 10]);
+        ellipsoid(body, mat.hoodDark, [0.24, -1.9, 0.34], [0.2, 0.08, 0.14], [0, 0, -0.05], [24, 10]);
+
+        const makeCandle = (side) => {
+          const x = side * 0.62;
+          rod(props, [side * 0.38, -0.77, 0.32], [x, -0.9, 0.52], 0.075, mat.hood, 20);
+          ellipsoid(props, mat.skin, [x, -0.92, 0.58], [0.14, 0.16, 0.1], [0, 0, 0], [22, 12]);
+          cylinder(props, 0.12, 0.14, 0.08, mat.gold, [x, -0.69, 0.59], [1, 1, 1], [0, 0, 0], 28);
+          cylinder(props, 0.052, 0.058, 0.34, mat.candle, [x, -0.47, 0.61], [1, 1, 1], [0, 0, 0], 28);
+          cylinder(props, 0.012, 0.012, 0.07, mat.line, [x, -0.25, 0.62], [1, 1, 1], [0, 0, 0], 10);
+          cone(props, 0.065, 0.2, mat.flame, [x, -0.12, 0.62], [1, 1, 0.72], [0, 0, side * 0.04], 24);
+        };
+        makeCandle(-1);
+        makeCandle(1);
+
+        // Cigarettes are true 3D rods, with embers and a small smoke curl.
+        [
+          [[-0.07, -0.13, 0.84], [-0.34, -0.24, 1.02]],
+          [[0, -0.14, 0.86], [0, -0.32, 1.06]],
+          [[0.07, -0.13, 0.84], [0.34, -0.24, 1.02]],
+        ].forEach(([start, end]) => {
+          rod(props, start, end, 0.026, mat.face, 18);
+          rod(props, [end[0] - Math.sign(end[0]) * 0.04, end[1] + 0.015, end[2] - 0.02], end, 0.027, filterMaterial, 18);
+          ellipsoid(props, mat.ember, end, [0.034, 0.034, 0.02], [0, 0, 0], [12, 8]);
+        });
+        tube(props, [[0.38, -0.2, 1.03], [0.45, -0.08, 1.0], [0.4, 0.04, 1.02]], 0.01, mat.smoke, 14);
+
+        // Flower, staff, halo, top button, back braid.
+        rod(accents, [-0.86, -1.42, 0.3], [-0.8, 0.36, 0.44], 0.038, filterMaterial, 14);
+        rod(accents, [-0.82, -0.32, 0.42], [-1.0, -0.1, 0.45], 0.025, filterMaterial, 12);
+        ellipsoid(accents, mat.leaf, [-1.04, -0.03, 0.5], [0.14, 0.07, 0.022], [0, 0, -0.34], [18, 8]);
+        ellipsoid(accents, mat.leaf, [-0.93, 0.15, 0.51], [0.13, 0.065, 0.022], [0, 0, 0.46], [18, 8]);
+        ellipsoid(accents, mat.leaf, [-0.66, 0.32, 0.55], [0.13, 0.065, 0.022], [0, 0, -0.5], [18, 8]);
+        ellipsoid(accents, mat.leaf, [-0.52, 0.38, 0.56], [0.13, 0.065, 0.022], [0, 0, 0.5], [18, 8]);
+        [
+          [0, 0.065],
+          [0.066, 0.018],
+          [-0.066, 0.018],
+          [0.048, -0.052],
+          [-0.048, -0.052],
+        ].forEach(([dx, dy]) => {
+          ellipsoid(accents, mat.face, [-0.58 + dx, 0.31 + dy, 0.63], [0.05, 0.04, 0.018], [0, 0, 0], [14, 8]);
+        });
+        ellipsoid(accents, mat.yellowDark, [-0.58, 0.31, 0.66], [0.024, 0.022, 0.014], [0, 0, 0], [10, 6]);
+        ellipsoid(accents, mat.leaf, [0, 1.24, -0.42], [0.2, 0.13, 0.13], [0, 0, 0], [24, 12]);
+        cylinder(accents, 0.034, 0.034, 0.04, mat.line, [0, 1.28, -0.28], [1, 1, 1], [Math.PI / 2, 0, 0], 12);
+        rod(accents, [0, 1.08, -0.1], [0.06, 1.52, 0.02], 0.018, mat.face, 12);
+        torus(accents, 0.48, 0.026, mat.yellowDark, [0.08, 1.67, 0.02], [1.18, 0.42, 1], [0.22, 0.08, 0.02]);
+        [
+          [0.5, -0.18, -0.78],
+          [0.56, -0.42, -0.84],
+          [0.57, -0.66, -0.8],
+          [0.52, -0.9, -0.73],
+          [0.45, -1.14, -0.66],
+        ].forEach(([x, y, z], index) => {
+          ellipsoid(accents, mat.hair, [x, y, z], [0.1, 0.12, 0.085], [0, 0, 0], [16, 8]);
+          if (index === 1 || index === 3) torus(accents, 0.065, 0.006, filterMaterial, [x, y - 0.012, z], [1, 0.38, 0.32], [0.1, 0.25, 0.18], 24);
+        });
+
+        return avatar;
+      }
+
       {
         // Reference-first chibi mesh: the large hood/body silhouette does the work first.
         const avatar = new THREE.Group();
@@ -1067,46 +1278,46 @@ const initToolAtom = async () => {
         name: "IDA Pro",
         phase: 0,
         speed: 0.72,
-        radius: 3.06,
+        radius: 3.28,
         rotation: [1.18, 0.18, 0.22],
         texture: idaTexture,
-        scale: 0.64,
+        scale: 0.42,
       },
       {
         name: "Ghidra",
         phase: 2.15,
         speed: 0.62,
-        radius: 3.02,
+        radius: 3.24,
         rotation: [0.42, 1.05, -0.36],
         texture: ghidraTexture,
-        scale: 0.7,
+        scale: 0.46,
       },
       {
         name: "Blender",
         phase: 4.18,
         speed: 0.66,
-        radius: 3.08,
+        radius: 3.3,
         rotation: [1.46, -0.62, 0.78],
         texture: blenderTexture,
-        scale: 0.62,
+        scale: 0.42,
       },
       {
         name: "x64dbg",
         phase: 1.2,
         speed: 0.58,
-        radius: 3.36,
+        radius: 3.48,
         rotation: [0.92, -0.82, -0.52],
         texture: x64dbgTexture,
-        scale: 0.56,
+        scale: 0.38,
       },
       {
         name: "OllyDbg",
         phase: 3.35,
         speed: 0.54,
-        radius: 3.3,
+        radius: 3.48,
         rotation: [1.12, 0.72, -0.95],
         texture: ollydbgTexture,
-        scale: 0.58,
+        scale: 0.38,
         scaleX: 0.76,
         scaleY: 1.0,
       },
@@ -1119,6 +1330,7 @@ const initToolAtom = async () => {
         new THREE.SpriteMaterial({
           map: tool.texture,
           transparent: true,
+          opacity: 0.68,
           depthTest: true,
           depthWrite: false,
         }),
@@ -1133,7 +1345,11 @@ const initToolAtom = async () => {
       const width = Math.max(stage.clientWidth, 1);
       const height = Math.max(stage.clientHeight, 1);
       renderer.setSize(width, height, false);
-      camera.aspect = width / height;
+      const aspect = width / height;
+      camera.left = (-viewHeight * aspect) / 2;
+      camera.right = (viewHeight * aspect) / 2;
+      camera.top = viewHeight / 2;
+      camera.bottom = -viewHeight / 2;
       camera.updateProjectionMatrix();
     };
 
@@ -1151,7 +1367,7 @@ const initToolAtom = async () => {
       const time = clock.getElapsedTime();
       group.rotation.y = Math.sin(time * 0.22) * 0.12;
       group.rotation.x = Math.sin(time * 0.18) * 0.06;
-      nucleus.rotation.y = time * 0.36;
+      nucleus.rotation.y = time * 0.32;
       nucleus.position.y = -0.1 + Math.sin(time * 1.2) * 0.035;
 
       tools.forEach((tool) => {
@@ -1163,6 +1379,7 @@ const initToolAtom = async () => {
         tool.icon.getWorldPosition(worldPoint);
         const depthScale = THREE.MathUtils.mapLinear(worldPoint.z, -2.8, 2.8, 0.72, 1.05);
         const scale = THREE.MathUtils.clamp(depthScale, 0.72, 1);
+        tool.icon.material.opacity = worldPoint.z > -0.5 ? 0.34 : 0.68;
         tool.icon.scale.set(tool.scale * (tool.scaleX || 1) * scale, tool.scale * (tool.scaleY || 1) * scale, 1);
       });
 
