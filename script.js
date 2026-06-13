@@ -4,6 +4,7 @@ const themeToggle = document.querySelector("[data-theme-toggle]");
 const themeLabel = document.querySelector("[data-theme-label]");
 const languageSelect = document.querySelector("[data-lang-select]");
 const terminalBootElements = [...document.querySelectorAll(".boot-ready, .boot-log, .boot-greeting")];
+const orbitNodes = [...document.querySelectorAll(".orbit-node")];
 
 const storage = {
   get(key, fallback) {
@@ -461,6 +462,39 @@ window.addEventListener("pageshow", (event) => {
     restartTerminalBoot();
   }
 });
+
+const startSyncedOrbit = () => {
+  if (!orbitNodes.length) return;
+
+  const duration = 16000;
+  const fullCircle = Math.PI * 2;
+  const spacing = fullCircle / orbitNodes.length;
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  const getRadius = () => Math.min(214, Math.max(160, window.innerWidth * 0.26));
+
+  const render = (time = 0) => {
+    const radius = getRadius();
+    const baseAngle = prefersReducedMotion.matches ? -Math.PI / 2 : (time % duration) / duration * fullCircle;
+
+    orbitNodes.forEach((node, index) => {
+      const angle = baseAngle + spacing * index;
+      const x = Math.cos(angle) * radius;
+      const y = Math.sin(angle) * radius;
+
+      node.style.transform = `translate(-50%, -50%) translate(${x.toFixed(2)}px, ${y.toFixed(2)}px)`;
+      node.style.zIndex = y >= 0 ? "5" : "1";
+    });
+
+    if (!prefersReducedMotion.matches) {
+      requestAnimationFrame(render);
+    }
+  };
+
+  render(0);
+};
+
+startSyncedOrbit();
 
 themeToggle?.addEventListener("click", () => {
   const currentTheme = document.documentElement.dataset.theme || "dark";
