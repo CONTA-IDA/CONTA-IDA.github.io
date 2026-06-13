@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CONTA의 소개. 리버스 엔지니어링, 개발, 레거시 게임 재구현에 관심을 둔 포트폴리오입니다."
+    />
+    <title>About | CONTA</title>
+    <link rel="icon" type="image/png" href="assets/conta.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="about">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html" aria-label="CONTA home">
+        <img class="brand-avatar" src="assets/conta.png" alt="" />
+        <span>CONTA</span>
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="about.html" data-nav="about" data-i18n="navAbout">About</a>
+          <a href="projects.html" data-nav="projects" data-i18n="navProjects">Projects</a>
+          <a href="setup.html" data-nav="setup" data-i18n="navSetup">Setup</a>
+          <a href="blog.html" data-nav="blog" data-i18n="navBlog">Log</a>
+          <a href="contact.html" data-nav="contact" data-i18n="navContact">Contact</a>
+        </nav>
+        <div class="site-controls" aria-label="Display preferences">
+          <button class="theme-toggle" type="button" data-theme-toggle>
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <select class="language-select" data-lang-select aria-label="Language">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero" aria-labelledby="about-title">
+        <div class="section-inner page-hero-inner">
+          <div>
+            <p class="section-kicker" data-i18n="aboutKicker">About</p>
+            <h1 id="about-title" data-i18n="aboutTitle">분석하고, 만들고, 시각화합니다.</h1>
+          </div>
+          <img class="page-avatar" src="assets/conta.png" alt="CONTA profile illustration" />
+        </div>
+      </section>
+
+      <section class="section about-section">
+        <div class="section-inner about-grid">
+          <div>
+            <h2 data-i18n="aboutInterestTitle">관심사</h2>
+          </div>
+          <div class="about-copy">
+            <p data-i18n="aboutP1">
+              리버스 엔지니어링을 통해 프로그램이 어떻게 동작하는지 살펴보고,
+              분석 과정에서 필요한 스크립트와 작은 도구를 직접 만드는 일에
+              관심이 많습니다.
+            </p>
+            <p data-i18n="aboutP2">
+              IDA Pro, Ghidra 같은 분석 도구와 Python 기반 자동화, 그리고
+              Blender를 활용한 자체 3D 에셋 제작과 레거시 게임 재구현 실험을
+              함께 다루고 있습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section stack-section">
+        <div class="section-inner stack-layout">
+          <div>
+            <p class="section-kicker" data-i18n="stackKicker">Stack</p>
+            <h2 data-i18n="stackTitle">분석과 제작을 오가는 구조를 선호합니다.</h2>
+          </div>
+          <div class="stack-groups">
+            <div class="stack-group">
+              <h3>Reverse</h3>
+              <p data-i18n="stackReverse">IDA Pro, Ghidra, x64dbg, binary analysis notes</p>
+            </div>
+            <div class="stack-group">
+              <h3>Develop</h3>
+              <p data-i18n="stackDevelop">Python tooling, C/C++, JavaScript, Git, documentation</p>
+            </div>
+            <div class="stack-group">
+              <h3>Model</h3>
+              <p data-i18n="stackModel">Blender, asset blocking, prototype models, legacy game recreation</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section workflow-section">
+        <div class="section-inner workflow-layout">
+          <div>
+            <p class="section-kicker" data-i18n="workflowKicker">Workflow</p>
+            <h2 data-i18n="workflowTitle">분석에서 재구현까지 이어지는 흐름</h2>
+          </div>
+          <ol class="workflow-list">
+            <li>
+              <span>Trace</span>
+              <p data-i18n="workflowTrace">동작을 관찰하고 함수 흐름, 문자열, 상태 변화를 기록합니다.</p>
+            </li>
+            <li>
+              <span>Automate</span>
+              <p data-i18n="workflowAutomate">반복 분석은 스크립트와 작은 CLI 도구로 줄입니다.</p>
+            </li>
+            <li>
+              <span>Rebuild</span>
+              <p data-i18n="workflowRebuild">핵심 규칙과 조작감을 직접 구현해 프로토타입으로 검증합니다.</p>
+            </li>
+            <li>
+              <span>Model</span>
+              <p data-i18n="workflowModel">원본 리소스 대신 자체 3D 에셋과 추상화된 표현으로 대체합니다.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 CONTA</span>
+      <a href="contact.html" data-i18n="footerContact">Contact</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

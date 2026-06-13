@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CONTA의 작업 환경과 컴퓨터 사양. Main PC, Mac mini, MacBook Pro 구성을 정리합니다."
+    />
+    <title>Setup | CONTA</title>
+    <link rel="icon" type="image/png" href="assets/conta.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="setup">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html" aria-label="CONTA home">
+        <img class="brand-avatar" src="assets/conta.png" alt="" />
+        <span>CONTA</span>
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="about.html" data-nav="about" data-i18n="navAbout">About</a>
+          <a href="projects.html" data-nav="projects" data-i18n="navProjects">Projects</a>
+          <a href="setup.html" data-nav="setup" data-i18n="navSetup">Setup</a>
+          <a href="blog.html" data-nav="blog" data-i18n="navBlog">Log</a>
+          <a href="contact.html" data-nav="contact" data-i18n="navContact">Contact</a>
+        </nav>
+        <div class="site-controls" aria-label="Display preferences">
+          <button class="theme-toggle" type="button" data-theme-toggle>
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <select class="language-select" data-lang-select aria-label="Language">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero" aria-labelledby="setup-title">
+        <div class="section-inner page-hero-inner">
+          <div>
+            <p class="section-kicker" data-i18n="setupKicker">Workspace</p>
+            <h1 id="setup-title" data-i18n="setupTitle">작업 환경</h1>
+          </div>
+          <p class="page-lede" data-i18n="setupLede">
+            리버스 엔지니어링, 도구 개발, 프로토타입 제작에 쓰는 메인 데스크톱과
+            보조 Mac 장비들을 정리했습니다.
+          </p>
+        </div>
+      </section>
+
+      <section class="section setup-section">
+        <div class="section-inner setup-grid">
+          <article class="setup-card setup-card-main">
+            <div class="project-meta">
+              <span data-i18n="setupMain">Main PC</span>
+              <span data-i18n="setupDesktop">Desktop</span>
+            </div>
+            <h2>7800X3D Workstation</h2>
+            <dl class="spec-list">
+              <div>
+                <dt>CPU</dt>
+                <dd>AMD Ryzen 7 7800X3D</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelMemory">Memory</dt>
+                <dd>64GB</dd>
+              </div>
+              <div>
+                <dt>GPU</dt>
+                <dd>NVIDIA GeForce RTX 5070 Ti</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelStorage">Storage</dt>
+                <dd>3TB SSD + 2TB HDD</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelUse">Use</dt>
+                <dd data-i18n="setupMainUse">Windows RE lab, IDA/Ghidra/x64dbg, Blender prototype work</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="setup-card">
+            <div class="project-meta">
+              <span data-i18n="setupSubMac">Sub Mac PC</span>
+              <span data-i18n="setupDesktop">Desktop</span>
+            </div>
+            <h2>M4 Mac mini</h2>
+            <dl class="spec-list">
+              <div>
+                <dt data-i18n="labelChip">Chip</dt>
+                <dd>Apple M4</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelMemory">Memory</dt>
+                <dd>24GB</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelStorage">Storage</dt>
+                <dd>256GB SSD</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelUse">Use</dt>
+                <dd data-i18n="setupMiniUse">macOS testing, documentation, lightweight tooling</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="setup-card">
+            <div class="project-meta">
+              <span data-i18n="setupSubLaptop">Sub Laptop</span>
+              <span data-i18n="setupMobile">Mobile</span>
+            </div>
+            <h2>2019 MacBook Pro</h2>
+            <dl class="spec-list">
+              <div>
+                <dt>CPU</dt>
+                <dd>Intel Core i9-9980HK</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelMemory">Memory</dt>
+                <dd>64GB</dd>
+              </div>
+              <div>
+                <dt>GPU</dt>
+                <dd>AMD Radeon Pro 5500M 8GB</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelStorage">Storage</dt>
+                <dd>4TB SSD</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelUse">Use</dt>
+                <dd data-i18n="setupLaptopUse">portable analysis notes, build checks, research workspace</dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 CONTA</span>
+      <a href="contact.html" data-i18n="footerContact">Contact</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CONTA의 리버스 엔지니어링, 도구 개발, 레거시 게임 재구현 프로젝트 목록입니다."
+    />
+    <title>Projects | CONTA</title>
+    <link rel="icon" type="image/png" href="assets/conta.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="projects">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html" aria-label="CONTA home">
+        <img class="brand-avatar" src="assets/conta.png" alt="" />
+        <span>CONTA</span>
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="about.html" data-nav="about" data-i18n="navAbout">About</a>
+          <a href="projects.html" data-nav="projects" data-i18n="navProjects">Projects</a>
+          <a href="setup.html" data-nav="setup" data-i18n="navSetup">Setup</a>
+          <a href="blog.html" data-nav="blog" data-i18n="navBlog">Log</a>
+          <a href="contact.html" data-nav="contact" data-i18n="navContact">Contact</a>
+        </nav>
+        <div class="site-controls" aria-label="Display preferences">
+          <button class="theme-toggle" type="button" data-theme-toggle>
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <select class="language-select" data-lang-select aria-label="Language">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero" aria-labelledby="projects-title">
+        <div class="section-inner page-hero-inner">
+          <div>
+            <p class="section-kicker" data-i18n="projectsKicker">Reverse / Tooling / Revival</p>
+            <h1 id="projects-title" data-i18n="projectsTitle">프로젝트</h1>
+          </div>
+          <p class="page-lede" data-i18n="projectsLede">
+            분석 노트, 자동화 도구, 사라져가는 게임의 재구현 실험을 중심으로
+            작업 흐름과 산출물을 정리합니다.
+          </p>
+        </div>
+      </section>
+
+      <section class="section projects-section">
+        <div class="section-inner project-grid">
+          <article class="project-card">
+            <div class="project-meta">
+              <span data-i18n="projectMetaReverse">Reverse</span>
+              <span>2026</span>
+            </div>
+            <h2 data-i18n="projectBinaryTitle">Binary Analysis Lab</h2>
+            <p data-i18n="projectBinaryText">
+              바이너리의 함수 흐름과 문자열, 상태 변화를 추적해 의심 지점을
+              재현 가능한 분석 노트로 정리합니다.
+            </p>
+            <dl class="project-facts">
+              <div>
+                <dt data-i18n="labelMethod">Method</dt>
+                <dd data-i18n="projectBinaryMethod">IDA Pro와 Ghidra로 call graph, xref, decompile view를 대조합니다.</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelArtifact">Artifact</dt>
+                <dd data-i18n="projectBinaryArtifact">함수 메모, 구조 추정, 재현 단계 중심의 sanitized write-up</dd>
+              </div>
+            </dl>
+            <ul class="tech-list" aria-label="Technologies">
+              <li>IDA Pro</li>
+              <li>Ghidra</li>
+              <li>x64dbg</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <div class="project-meta">
+              <span data-i18n="projectMetaDevelopment">Development</span>
+              <span data-i18n="projectMetaTooling">Tooling</span>
+            </div>
+            <h2 data-i18n="projectToolingTitle">Reverse Tooling Scripts</h2>
+            <p data-i18n="projectToolingText">
+              반복되는 분석 작업을 줄이기 위한 Python 스크립트와 작은 CLI 도구를
+              만들어 분석 시간을 줄입니다.
+            </p>
+            <dl class="project-facts">
+              <div>
+                <dt data-i18n="labelMethod">Method</dt>
+                <dd data-i18n="projectToolingMethod">파일 파싱, 문자열 추출, 패턴 검색, 결과 정리 과정을 자동화합니다.</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelArtifact">Artifact</dt>
+                <dd data-i18n="projectToolingArtifact">재사용 가능한 스크립트, 명령어 예시, 분석 로그 템플릿</dd>
+              </div>
+            </dl>
+            <ul class="tech-list" aria-label="Technologies">
+              <li>Python</li>
+              <li>C/C++</li>
+              <li>CLI</li>
+            </ul>
+          </article>
+
+          <article class="project-card">
+            <div class="project-meta">
+              <span data-i18n="projectMetaRevival">Game Revival</span>
+              <span data-i18n="projectMetaPrototype">Prototype</span>
+            </div>
+            <h2 data-i18n="projectBubbleTitle">Discontinued Game Revival Lab</h2>
+            <p data-i18n="projectBubbleText">
+              오래된 온라인 게임이나 서비스가 종료된 게임의 동작을 리버싱으로
+              추정해 되살리는 클린룸 재구현 프로젝트입니다. IDA/Ghidra 같은
+              분석 도구로 조작감, 규칙, 전투 흐름을 해석하고 원본 리소스 없이
+              자체 모델과 추상화된 에셋으로 구현합니다.
+            </p>
+            <dl class="project-facts">
+              <div>
+                <dt data-i18n="labelMethod">Method</dt>
+                <dd data-i18n="projectBubbleMethod">IDA/Ghidra 등으로 입력, 판정, 카메라, 네트워크 흐름을 추정해 작은 시스템으로 재구성합니다.</dd>
+              </div>
+              <div>
+                <dt data-i18n="labelArtifact">Artifact</dt>
+                <dd data-i18n="projectBubbleArtifact">클린룸 프로토타입, 자체 모델 에셋, 동작 추정 기록</dd>
+              </div>
+            </dl>
+            <ul class="tech-list" aria-label="Technologies">
+              <li>Game Logic</li>
+              <li>Blender</li>
+              <li>Prototype</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 CONTA</span>
+      <a href="contact.html" data-i18n="footerContact">Contact</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

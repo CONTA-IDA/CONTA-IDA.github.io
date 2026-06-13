@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="CONTA와 연결할 수 있는 GitHub와 Discord 연락 페이지입니다."
+    />
+    <title>Contact | CONTA</title>
+    <link rel="icon" type="image/png" href="assets/conta.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-page="contact">
+    <header class="site-header" data-header>
+      <a class="brand" href="index.html" aria-label="CONTA home">
+        <img class="brand-avatar" src="assets/conta.png" alt="" />
+        <span>CONTA</span>
+      </a>
+      <div class="header-actions">
+        <nav class="site-nav" aria-label="Main navigation">
+          <a href="about.html" data-nav="about" data-i18n="navAbout">About</a>
+          <a href="projects.html" data-nav="projects" data-i18n="navProjects">Projects</a>
+          <a href="setup.html" data-nav="setup" data-i18n="navSetup">Setup</a>
+          <a href="blog.html" data-nav="blog" data-i18n="navBlog">Log</a>
+          <a href="contact.html" data-nav="contact" data-i18n="navContact">Contact</a>
+        </nav>
+        <div class="site-controls" aria-label="Display preferences">
+          <button class="theme-toggle" type="button" data-theme-toggle>
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span data-theme-label>Dark</span>
+          </button>
+          <select class="language-select" data-lang-select aria-label="Language">
+            <option value="ko">한국어</option>
+            <option value="en">English</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section class="page-hero contact-page" aria-labelledby="contact-title">
+        <div class="section-inner contact-card">
+          <img class="page-avatar" src="assets/conta.png" alt="CONTA profile illustration" />
+          <div>
+            <p class="section-kicker" data-i18n="contactKicker">Contact</p>
+            <h1 id="contact-title" data-i18n="contactTitle">의견을 보내주세요</h1>
+            <p class="page-lede" data-i18n="contactLede">
+              리버스 엔지니어링, 분석 자동화, 레거시 게임 재구현 프로젝트에 대한
+              의견이나 제안이 있다면 GitHub 또는 Discord로 연락해 주세요.
+            </p>
+            <div class="hero-actions">
+              <a
+                class="button button-primary"
+                href="https://github.com/soahrin"
+                target="_blank"
+                rel="noopener"
+              ><span data-i18n="actionGithub">GitHub로 연락</span></a>
+              <a
+                class="button button-secondary"
+                href="https://discord.com/"
+                target="_blank"
+                rel="noopener"
+                data-i18n="actionDiscord"
+              >Discord로 연락</a>
+              <a class="button button-secondary" href="projects.html" data-i18n="actionProjects">프로젝트 보기</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>© 2026 CONTA</span>
+      <a href="index.html" data-i18n="footerHome">Home</a>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
