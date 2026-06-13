@@ -336,53 +336,58 @@ button {
   animation: profilePulse 6s ease-in-out infinite;
 }
 
-.orbit-tool {
+.orbit-node {
   position: absolute;
   z-index: 1;
   left: 50%;
   top: 50%;
   width: clamp(34px, 7vw, 72px);
-  object-fit: contain;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
   opacity: 0.68;
+  pointer-events: none;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.orbit-tool {
+  width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   filter: saturate(0.95) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
-  --orbit-x: 210px;
-  --orbit-start: 0deg;
-  --orbit-duration: 11s;
-  animation: toolOrbit var(--orbit-duration) linear infinite;
 }
 
-.orbit-tool-ida {
-  --orbit-start: 188deg;
-  --orbit-x: clamp(140px, 26vw, 220px);
+.orbit-node-ida {
+  animation-name: orbitIda;
+  animation-duration: 12.6s;
 }
 
-.orbit-tool-ghidra {
-  --orbit-start: 318deg;
-  --orbit-x: clamp(132px, 25vw, 210px);
-  --orbit-duration: 12.5s;
-  animation-delay: -2.1s;
+.orbit-node-ghidra {
+  width: clamp(36px, 7.4vw, 76px);
+  animation-name: orbitGhidra;
+  animation-duration: 14.8s;
+  animation-delay: -3.2s;
 }
 
-.orbit-tool-blender {
-  --orbit-start: 34deg;
-  --orbit-x: clamp(150px, 27vw, 230px);
-  --orbit-duration: 10.5s;
-  animation-delay: -4.2s;
+.orbit-node-blender {
+  animation-name: orbitBlender;
+  animation-duration: 11.4s;
+  animation-delay: -1.4s;
 }
 
-.orbit-tool-x64dbg {
-  --orbit-start: 126deg;
-  --orbit-x: clamp(124px, 23vw, 198px);
-  --orbit-duration: 13s;
-  animation-delay: -5.8s;
+.orbit-node-x64dbg {
+  width: clamp(32px, 6.4vw, 64px);
+  animation-name: orbitX64dbg;
+  animation-duration: 16.2s;
+  animation-delay: -6.1s;
 }
 
-.orbit-tool-ollydbg {
+.orbit-node-ollydbg {
   width: clamp(30px, 5vw, 54px);
-  --orbit-start: 252deg;
-  --orbit-x: clamp(156px, 28vw, 236px);
-  --orbit-duration: 14s;
-  animation-delay: -7.6s;
+  animation-name: orbitOllydbg;
+  animation-duration: 13.5s;
+  animation-delay: -8.2s;
 }
 
 @keyframes profilePulse {
@@ -402,25 +407,113 @@ button {
   }
 }
 
-@keyframes toolOrbit {
-  from {
-    transform:
-      translate(-50%, -50%)
-      rotate(var(--orbit-start))
-      translateX(var(--orbit-x))
-      scale(0.88);
+@keyframes orbitIda {
+  0% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(150px, 25vw, 218px)), clamp(8px, 2vw, 18px)) scale(0.86);
+    opacity: 0.42;
   }
 
-  50% {
-    opacity: 0.3;
+  27% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(36px, 7vw, 68px)), calc(-1 * clamp(118px, 16vw, 152px))) scale(0.78);
+    opacity: 0.32;
   }
 
-  to {
-    transform:
-      translate(-50%, -50%)
-      rotate(calc(var(--orbit-start) + 360deg))
-      translateX(var(--orbit-x))
-      scale(0.88);
+  58% {
+    transform: translate(-50%, -50%) translate(clamp(142px, 24vw, 214px), calc(-1 * clamp(36px, 7vw, 64px))) scale(0.9);
+    opacity: 0.62;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(150px, 25vw, 218px)), clamp(8px, 2vw, 18px)) scale(0.86);
+    opacity: 0.42;
+  }
+}
+
+@keyframes orbitGhidra {
+  0% {
+    transform: translate(-50%, -50%) translate(clamp(82px, 16vw, 150px), calc(-1 * clamp(112px, 15vw, 146px))) scale(0.78);
+    opacity: 0.36;
+  }
+
+  34% {
+    transform: translate(-50%, -50%) translate(clamp(168px, 28vw, 236px), clamp(54px, 10vw, 96px)) scale(0.94);
+    opacity: 0.67;
+  }
+
+  71% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(94px, 17vw, 158px)), clamp(102px, 16vw, 132px)) scale(0.72);
+    opacity: 0.28;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(clamp(82px, 16vw, 150px), calc(-1 * clamp(112px, 15vw, 146px))) scale(0.78);
+    opacity: 0.36;
+  }
+}
+
+@keyframes orbitBlender {
+  0% {
+    transform: translate(-50%, -50%) translate(clamp(166px, 27vw, 232px), calc(-1 * clamp(28px, 5vw, 60px))) scale(0.9);
+    opacity: 0.62;
+  }
+
+  21% {
+    transform: translate(-50%, -50%) translate(clamp(36px, 8vw, 80px), clamp(132px, 19vw, 170px)) scale(0.78);
+    opacity: 0.35;
+  }
+
+  54% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(154px, 25vw, 220px)), clamp(44px, 9vw, 82px)) scale(0.88);
+    opacity: 0.58;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(clamp(166px, 27vw, 232px), calc(-1 * clamp(28px, 5vw, 60px))) scale(0.9);
+    opacity: 0.62;
+  }
+}
+
+@keyframes orbitX64dbg {
+  0% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(70px, 14vw, 126px)), calc(-1 * clamp(118px, 16vw, 158px))) scale(0.72);
+    opacity: 0.28;
+  }
+
+  42% {
+    transform: translate(-50%, -50%) translate(clamp(118px, 20vw, 190px), clamp(116px, 18vw, 152px)) scale(0.86);
+    opacity: 0.5;
+  }
+
+  77% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(180px, 28vw, 248px)), clamp(18px, 4vw, 42px)) scale(0.94);
+    opacity: 0.64;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(70px, 14vw, 126px)), calc(-1 * clamp(118px, 16vw, 158px))) scale(0.72);
+    opacity: 0.28;
+  }
+}
+
+@keyframes orbitOllydbg {
+  0% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(166px, 27vw, 234px)), clamp(118px, 18vw, 150px)) scale(0.92);
+    opacity: 0.6;
+  }
+
+  31% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(132px, 22vw, 196px)), calc(-1 * clamp(52px, 10vw, 88px))) scale(0.76);
+    opacity: 0.31;
+  }
+
+  63% {
+    transform: translate(-50%, -50%) translate(clamp(62px, 13vw, 130px), clamp(138px, 19vw, 170px)) scale(0.82);
+    opacity: 0.45;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) translate(calc(-1 * clamp(166px, 27vw, 234px)), clamp(118px, 18vw, 150px)) scale(0.92);
+    opacity: 0.6;
   }
 }
 
@@ -540,7 +633,7 @@ button {
 .terminal-visual {
   position: relative;
   height: 150px;
-  margin: 0 1rem 1rem;
+  margin: 1rem;
   overflow: hidden;
   border: 1px solid rgba(142, 227, 109, 0.18);
   border-radius: 8px;
@@ -594,11 +687,17 @@ button {
 }
 
 .assembly-core,
-.assembly-piece {
+.assembly-flash,
+.assembly-piece,
+.assembly-result {
   position: absolute;
   left: 50%;
   top: 58%;
   display: block;
+}
+
+.assembly-core,
+.assembly-piece {
   border: 1px solid rgba(142, 227, 109, 0.72);
   background: rgba(142, 227, 109, 0.13);
   box-shadow:
@@ -613,6 +712,66 @@ button {
   transform: translate(-50%, -50%) scale(0.7);
   opacity: 0;
   animation: coreLock 4.8s ease-in-out infinite;
+}
+
+.assembly-flash {
+  z-index: 3;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(220, 255, 198, 0.72);
+  box-shadow:
+    0 0 18px rgba(142, 227, 109, 0.8),
+    0 0 42px rgba(123, 209, 255, 0.42);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  animation: flashBurst 4.8s ease-in-out infinite;
+}
+
+.assembly-result {
+  z-index: 4;
+  min-width: 154px;
+  padding: 0.55rem 0.72rem;
+  border: 1px solid rgba(142, 227, 109, 0.76);
+  border-radius: 8px;
+  color: #dfffce;
+  background:
+    linear-gradient(90deg, rgba(142, 227, 109, 0.28), rgba(123, 209, 255, 0.12)),
+    rgba(5, 24, 13, 0.9);
+  box-shadow:
+    0 0 0 1px rgba(142, 227, 109, 0.18),
+    0 0 28px rgba(142, 227, 109, 0.38);
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-shadow: 0 0 12px rgba(142, 227, 109, 0.62);
+  transform: translate(-50%, -50%) scale(0.74);
+  opacity: 0;
+  animation: resultSnap 4.8s ease-in-out infinite;
+}
+
+.assembly-result::before,
+.assembly-result::after {
+  position: absolute;
+  top: 50%;
+  width: 42px;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(142, 227, 109, 0.9));
+  transform: translateY(-50%);
+  opacity: 0;
+  animation: resultStreak 4.8s ease-in-out infinite;
+}
+
+.assembly-result::before {
+  right: calc(100% + 8px);
+}
+
+.assembly-result::after {
+  left: calc(100% + 8px);
+  transform: translateY(-50%) rotate(180deg);
 }
 
 .assembly-core::before,
@@ -733,13 +892,13 @@ button {
 
 @keyframes coreLock {
   0%,
-  48% {
+  46% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.7);
   }
 
-  64%,
-  82% {
+  58%,
+  90% {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
@@ -747,6 +906,68 @@ button {
   100% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.16);
+  }
+}
+
+@keyframes flashBurst {
+  0%,
+  52% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+
+  58% {
+    transform: translate(-50%, -50%) scale(8.4);
+    opacity: 0.42;
+  }
+
+  68%,
+  100% {
+    transform: translate(-50%, -50%) scale(12);
+    opacity: 0;
+  }
+}
+
+@keyframes resultSnap {
+  0%,
+  55% {
+    transform: translate(-50%, -50%) scale(0.74);
+    opacity: 0;
+  }
+
+  61% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 1;
+  }
+
+  67%,
+  91% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes resultStreak {
+  0%,
+  56% {
+    opacity: 0;
+    width: 0;
+  }
+
+  62% {
+    opacity: 1;
+    width: 56px;
+  }
+
+  78%,
+  100% {
+    opacity: 0;
+    width: 18px;
   }
 }
 

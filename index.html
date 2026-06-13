@@ -9,7 +9,7 @@
     />
     <title>CONTA | Reverse Engineering & Development</title>
     <link rel="icon" type="image/png" href="assets/conta.png" />
-    <link rel="stylesheet" href="styles.css?v=orbit-terminal-20260613" />
+    <link rel="stylesheet" href="styles.css?v=orbit-terminal2-20260613" />
   </head>
   <body data-page="home">
     <header class="site-header" data-header>
@@ -67,9 +67,6 @@
                 <span class="terminal-light terminal-green"></span>
                 <span class="terminal-title" data-i18n="terminalTitle">analysis session</span>
               </div>
-              <pre><code><span data-i18n="terminalLine1">$ ghidraRun ./legacy-client.bin</span>
-<span data-i18n="terminalLine2">trace: input loop, camera state, hit timing</span>
-<span data-i18n="terminalLine3">build: clean-room prototype assets ready</span></code></pre>
               <div class="terminal-visual" aria-hidden="true">
                 <div class="scan-rain">
                   <span style="--x: 8%; --delay: -0.4s;">0x401</span>
@@ -87,6 +84,8 @@
                   <span class="assembly-piece piece-e"></span>
                   <span class="assembly-piece piece-f"></span>
                   <span class="assembly-core"></span>
+                  <span class="assembly-flash"></span>
+                  <span class="assembly-result">REBUILD READY</span>
                 </div>
               </div>
             </div>
@@ -96,11 +95,21 @@
             <div class="orbit-ring orbit-ring-one"></div>
             <div class="orbit-ring orbit-ring-two"></div>
             <img class="orbit-core" src="assets/conta.png" alt="CONTA profile" />
-            <img class="orbit-tool orbit-tool-ida" src="assets/ida.png" alt="" />
-            <img class="orbit-tool orbit-tool-ghidra" src="assets/ghidra.png" alt="" />
-            <img class="orbit-tool orbit-tool-blender" src="assets/blender.png" alt="" />
-            <img class="orbit-tool orbit-tool-x64dbg" src="assets/x64dbg.png" alt="" />
-            <img class="orbit-tool orbit-tool-ollydbg" src="assets/ollydbg.png" alt="" />
+            <span class="orbit-node orbit-node-ida">
+              <img class="orbit-tool" src="assets/ida.png" alt="" />
+            </span>
+            <span class="orbit-node orbit-node-ghidra">
+              <img class="orbit-tool" src="assets/ghidra.png" alt="" />
+            </span>
+            <span class="orbit-node orbit-node-blender">
+              <img class="orbit-tool" src="assets/blender.png" alt="" />
+            </span>
+            <span class="orbit-node orbit-node-x64dbg">
+              <img class="orbit-tool" src="assets/x64dbg.png" alt="" />
+            </span>
+            <span class="orbit-node orbit-node-ollydbg">
+              <img class="orbit-tool" src="assets/ollydbg.png" alt="" />
+            </span>
           </div>
         </div>
       </section>
