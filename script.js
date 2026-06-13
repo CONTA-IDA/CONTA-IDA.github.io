@@ -3,6 +3,7 @@ const navLinks = [...document.querySelectorAll(".site-nav a")];
 const themeToggle = document.querySelector("[data-theme-toggle]");
 const themeLabel = document.querySelector("[data-theme-label]");
 const languageSelect = document.querySelector("[data-lang-select]");
+const terminalBootElements = [...document.querySelectorAll(".boot-ready, .boot-log, .boot-greeting")];
 
 const storage = {
   get(key, fallback) {
@@ -442,6 +443,24 @@ function updateThemeLabel() {
 
 applyTheme(getCurrentTheme());
 applyLanguage(getCurrentLanguage());
+
+const restartTerminalBoot = () => {
+  terminalBootElements.forEach((element) => {
+    element.style.animation = "none";
+  });
+
+  void document.body.offsetHeight;
+
+  terminalBootElements.forEach((element) => {
+    element.style.animation = "";
+  });
+};
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    restartTerminalBoot();
+  }
+});
 
 themeToggle?.addEventListener("click", () => {
   const currentTheme = document.documentElement.dataset.theme || "dark";

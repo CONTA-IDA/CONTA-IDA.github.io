@@ -288,7 +288,7 @@ button {
 
 .orbit-core {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: clamp(172px, 45%, 240px);
   max-width: calc(100% - 3rem);
   filter:
@@ -299,20 +299,21 @@ button {
 
 .orbit-node {
   position: absolute;
-  z-index: 1;
+  z-index: 4;
   left: 50%;
   top: 50%;
   width: clamp(34px, 7vw, 72px);
   aspect-ratio: 1;
   display: grid;
   place-items: center;
-  opacity: 0.68;
+  opacity: 1;
   pointer-events: none;
-  animation-name: satelliteDrift;
-  animation-duration: 7s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
+  --orbit-radius: clamp(136px, 23vw, 184px);
+  --orbit-duration: 12s;
+  --orbit-delay: 0s;
+  transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius));
+  animation: satelliteOrbit var(--orbit-duration) linear infinite;
+  animation-delay: var(--orbit-delay);
 }
 
 .orbit-tool {
@@ -320,52 +321,42 @@ button {
   max-height: 100%;
   object-fit: contain;
   filter: saturate(0.95) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
+  transform: rotate(0deg);
+  animation: satelliteUpright var(--orbit-duration) linear infinite;
+  animation-delay: var(--orbit-delay);
 }
 
 .orbit-node-ida {
-  --sat-x: calc(-1 * clamp(142px, 26vw, 214px));
-  --sat-y: calc(-1 * clamp(32px, 6vw, 60px));
-  --sat-float-x: -8px;
-  --sat-float-y: 13px;
-  animation-delay: -0.8s;
+  --orbit-radius: clamp(144px, 24vw, 194px);
+  --orbit-duration: 12.5s;
+  --orbit-delay: -1.22s;
 }
 
 .orbit-node-ghidra {
   width: clamp(36px, 7.4vw, 76px);
-  --sat-x: clamp(116px, 22vw, 190px);
-  --sat-y: calc(-1 * clamp(86px, 15vw, 132px));
-  --sat-float-x: 12px;
-  --sat-float-y: 9px;
-  animation-delay: -2.2s;
+  --orbit-radius: clamp(132px, 22vw, 178px);
+  --orbit-duration: 14s;
+  --orbit-delay: -4.36s;
 }
 
 .orbit-node-blender {
-  --sat-x: clamp(140px, 26vw, 220px);
-  --sat-y: clamp(74px, 14vw, 126px);
-  --sat-float-x: -10px;
-  --sat-float-y: -11px;
-  animation-duration: 7.8s;
-  animation-delay: -3.8s;
+  --orbit-radius: clamp(152px, 25vw, 204px);
+  --orbit-duration: 11.6s;
+  --orbit-delay: -6.12s;
 }
 
 .orbit-node-x64dbg {
   width: clamp(32px, 6.4vw, 64px);
-  --sat-x: calc(-1 * clamp(94px, 18vw, 160px));
-  --sat-y: clamp(108px, 18vw, 146px);
-  --sat-float-x: 10px;
-  --sat-float-y: -8px;
-  animation-duration: 8.4s;
-  animation-delay: -5.1s;
+  --orbit-radius: clamp(124px, 21vw, 168px);
+  --orbit-duration: 15.4s;
+  --orbit-delay: -11.55s;
 }
 
 .orbit-node-ollydbg {
   width: clamp(30px, 5vw, 54px);
-  --sat-x: calc(-1 * clamp(168px, 27vw, 232px));
-  --sat-y: clamp(76px, 14vw, 116px);
-  --sat-float-x: 9px;
-  --sat-float-y: 10px;
-  animation-duration: 6.6s;
-  animation-delay: -1.6s;
+  --orbit-radius: clamp(160px, 26vw, 212px);
+  --orbit-duration: 13.2s;
+  --orbit-delay: -11.66s;
 }
 
 @keyframes profilePulse {
@@ -379,19 +370,57 @@ button {
   }
 }
 
-@keyframes satelliteDrift {
+@keyframes satelliteOrbit {
   0% {
-    transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
+    z-index: 5;
+    transform: translate(-50%, -50%) rotate(0deg) translateX(var(--orbit-radius));
+  }
+
+  49% {
+    z-index: 5;
+    transform: translate(-50%, -50%) rotate(176deg) translateX(var(--orbit-radius));
   }
 
   50% {
-    transform:
-      translate(-50%, -50%)
-      translate(calc(var(--sat-x) + var(--sat-float-x)), calc(var(--sat-y) + var(--sat-float-y)));
+    z-index: 1;
+    transform: translate(-50%, -50%) rotate(180deg) translateX(var(--orbit-radius));
+  }
+
+  99% {
+    z-index: 1;
+    transform: translate(-50%, -50%) rotate(356deg) translateX(var(--orbit-radius));
   }
 
   100% {
-    transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
+    z-index: 5;
+    transform: translate(-50%, -50%) rotate(360deg) translateX(var(--orbit-radius));
+  }
+}
+
+@keyframes satelliteUpright {
+  0% {
+    transform: rotate(0deg) scale(1.08);
+    filter: saturate(1.06) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
+  }
+
+  49% {
+    transform: rotate(-176deg) scale(1.08);
+    filter: saturate(1.06) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
+  }
+
+  50% {
+    transform: rotate(-180deg) scale(0.84);
+    filter: saturate(0.84) drop-shadow(0 7px 12px rgba(0, 0, 0, 0.18));
+  }
+
+  99% {
+    transform: rotate(-356deg) scale(0.84);
+    filter: saturate(0.84) drop-shadow(0 7px 12px rgba(0, 0, 0, 0.18));
+  }
+
+  100% {
+    transform: rotate(-360deg) scale(1.08);
+    filter: saturate(1.06) drop-shadow(0 14px 22px rgba(0, 0, 0, 0.3));
   }
 }
 
@@ -534,7 +563,7 @@ button {
   content: "";
   background: linear-gradient(180deg, transparent, rgba(142, 227, 109, 0.24), transparent);
   transform: translateY(-100%);
-  animation: terminalScan 3.2s linear infinite;
+  animation: terminalScan 2.7s linear 0s 3 both;
 }
 
 .terminal-visual::after {
@@ -574,21 +603,21 @@ button {
   text-shadow: 0 0 12px rgba(142, 227, 109, 0.62);
   transform: translate(-50%, -50%) scale(0.78);
   opacity: 0;
-  animation: bootReady 9s ease-in-out infinite;
+  animation: bootReady 10.8s ease-in-out forwards;
 }
 
 .boot-log {
   position: absolute;
   left: 1rem;
   right: 1rem;
-  bottom: -9rem;
+  bottom: -16rem;
   display: grid;
-  gap: 0.38rem;
+  gap: 0.3rem;
   color: rgba(188, 255, 160, 0.88);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   line-height: 1.2;
   text-shadow: 0 0 12px rgba(142, 227, 109, 0.55);
-  animation: bootLog 9s cubic-bezier(0.2, 0.86, 0.28, 1) infinite;
+  animation: bootLog 10.8s cubic-bezier(0.2, 0.86, 0.28, 1) forwards;
 }
 
 .boot-log span {
@@ -611,7 +640,7 @@ button {
     0 0 24px rgba(123, 209, 255, 0.24);
   transform: translateY(-34%) translateX(-0.5rem);
   opacity: 0;
-  animation: bootGreeting 9s ease-in-out infinite;
+  animation: bootGreeting 10.8s ease-in-out forwards;
 }
 
 @keyframes terminalScan {
@@ -645,43 +674,38 @@ button {
 
 @keyframes bootLog {
   0%,
-  22% {
+  18% {
     transform: translateY(0);
     opacity: 0;
   }
 
-  30% {
+  24% {
     opacity: 1;
   }
 
-  68% {
-    transform: translateY(-162px);
+  70% {
+    transform: translateY(-306px);
     opacity: 1;
   }
 
-  78%,
+  80%,
   100% {
-    transform: translateY(-190px);
+    transform: translateY(-330px);
     opacity: 0;
   }
 }
 
 @keyframes bootGreeting {
   0%,
-  68% {
+  72% {
     transform: translateY(-28%) translateX(-0.5rem);
     opacity: 0;
   }
 
-  76%,
-  92% {
+  82%,
+  100% {
     transform: translateY(-34%) translateX(0);
     opacity: 1;
-  }
-
-  100% {
-    transform: translateY(-42%) translateX(0);
-    opacity: 0;
   }
 }
 

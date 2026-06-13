@@ -9,7 +9,7 @@
     />
     <title>CONTA | Reverse Engineering & Development</title>
     <link rel="icon" type="image/png" href="assets/conta.png" />
-    <link rel="stylesheet" href="styles.css?v=terminal-boot-20260613" />
+    <link rel="stylesheet" href="styles.css?v=terminal-orbit-depth-20260613" />
   </head>
   <body data-page="home">
     <header class="site-header" data-header>
@@ -71,18 +71,23 @@
                 <div class="terminal-sequence">
                   <div class="boot-ready">REBUILD READY</div>
                   <div class="boot-log">
-                    <span>[init] resolving legacy client symbols</span>
-                    <span>[pkg] fetching analysis hooks</span>
+                    <span>[init] reading local package index</span>
+                    <span>[fetch] resolving reverse-toolchain</span>
+                    <span>[pkg] installing analysis hooks</span>
+                    <span>[pkg] linking ghidra bridge</span>
+                    <span>[pkg] linking ida notes adapter</span>
                     <span>[ok] input loop trace loaded</span>
                     <span>[ok] camera state mapper linked</span>
-                    <span>[ok] clean-room assets mounted</span>
-                    <span>[run] launching CONTA interface</span>
+                    <span>[ok] hit timing table mounted</span>
+                    <span>[ok] clean-room assets indexed</span>
+                    <span>[build] composing interface bundle</span>
+                    <span>[run] launching CONTA profile</span>
                     <span>[done] boot sequence complete</span>
                   </div>
                   <div class="boot-greeting">
-                    <span>Hello, this is CONTA.</span>
+                    <span>Hello, I'm CONTA.</span>
                     <span>안녕하세요, CONTA입니다.</span>
-                    <span>你好，这里是 CONTA。</span>
+                    <span>你好，我是 CONTA。</span>
                   </div>
                 </div>
               </div>
@@ -116,6 +121,6 @@
       <a href="contact.html" data-i18n="footerContact">Contact</a>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=terminal-orbit-depth-20260613"></script>
   </body>
 </html>
