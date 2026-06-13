@@ -9,7 +9,7 @@
     />
     <title>CONTA | Reverse Engineering & Development</title>
     <link rel="icon" type="image/png" href="assets/conta.png" />
-    <link rel="stylesheet" href="styles.css?v=orbit-terminal2-20260613" />
+    <link rel="stylesheet" href="styles.css?v=terminal-boot-20260613" />
   </head>
   <body data-page="home">
     <header class="site-header" data-header>
@@ -68,33 +68,29 @@
                 <span class="terminal-title" data-i18n="terminalTitle">analysis session</span>
               </div>
               <div class="terminal-visual" aria-hidden="true">
-                <div class="scan-rain">
-                  <span style="--x: 8%; --delay: -0.4s;">0x401</span>
-                  <span style="--x: 23%; --delay: -1.3s;">xref</span>
-                  <span style="--x: 39%; --delay: -2.2s;">call</span>
-                  <span style="--x: 57%; --delay: -0.9s;">jmp</span>
-                  <span style="--x: 74%; --delay: -1.8s;">ret</span>
-                  <span style="--x: 88%; --delay: -2.8s;">bin</span>
-                </div>
-                <div class="assembly-field">
-                  <span class="assembly-piece piece-a"></span>
-                  <span class="assembly-piece piece-b"></span>
-                  <span class="assembly-piece piece-c"></span>
-                  <span class="assembly-piece piece-d"></span>
-                  <span class="assembly-piece piece-e"></span>
-                  <span class="assembly-piece piece-f"></span>
-                  <span class="assembly-core"></span>
-                  <span class="assembly-flash"></span>
-                  <span class="assembly-result">REBUILD READY</span>
+                <div class="terminal-sequence">
+                  <div class="boot-ready">REBUILD READY</div>
+                  <div class="boot-log">
+                    <span>[init] resolving legacy client symbols</span>
+                    <span>[pkg] fetching analysis hooks</span>
+                    <span>[ok] input loop trace loaded</span>
+                    <span>[ok] camera state mapper linked</span>
+                    <span>[ok] clean-room assets mounted</span>
+                    <span>[run] launching CONTA interface</span>
+                    <span>[done] boot sequence complete</span>
+                  </div>
+                  <div class="boot-greeting">
+                    <span>Hello, this is CONTA.</span>
+                    <span>안녕하세요, CONTA입니다.</span>
+                    <span>你好，这里是 CONTA。</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="orbit-stage" aria-label="Reverse engineering tool icons orbiting CONTA profile">
-            <div class="orbit-ring orbit-ring-one"></div>
-            <div class="orbit-ring orbit-ring-two"></div>
-            <img class="orbit-core" src="assets/conta.png" alt="CONTA profile" />
+            <img class="orbit-core" src="assets/conta-cutout.png" alt="CONTA profile" />
             <span class="orbit-node orbit-node-ida">
               <img class="orbit-tool" src="assets/ida.png" alt="" />
             </span>

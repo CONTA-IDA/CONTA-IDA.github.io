@@ -286,53 +286,14 @@ button {
   isolation: isolate;
 }
 
-.orbit-stage::before {
-  position: absolute;
-  inset: 18%;
-  content: "";
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(142, 227, 109, 0.18), transparent 56%),
-    conic-gradient(from 120deg, rgba(142, 227, 109, 0.16), transparent 28%, rgba(123, 209, 255, 0.12), transparent 66%);
-  filter: blur(18px);
-  opacity: 0.72;
-}
-
-.orbit-ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  z-index: 0;
-  border: 1px solid rgba(142, 227, 109, 0.22);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) rotate(-16deg);
-}
-
-.orbit-ring-one {
-  width: clamp(240px, 80%, 430px);
-  aspect-ratio: 1.58;
-}
-
-.orbit-ring-two {
-  width: clamp(210px, 67%, 350px);
-  aspect-ratio: 1.42;
-  border-color: rgba(123, 209, 255, 0.17);
-  transform: translate(-50%, -50%) rotate(22deg);
-}
-
 .orbit-core {
   position: relative;
   z-index: 2;
-  width: clamp(148px, 40%, 210px);
-  padding: clamp(0.45rem, 1.2vw, 0.7rem);
-  border: 1px solid rgba(142, 227, 109, 0.45);
-  border-radius: 18px;
-  background:
-    linear-gradient(145deg, rgba(244, 239, 229, 0.16), rgba(244, 239, 229, 0.04)),
-    var(--avatar-bg);
-  box-shadow:
-    0 26px 70px rgba(0, 0, 0, 0.36),
-    0 0 0 8px rgba(142, 227, 109, 0.04);
+  width: clamp(172px, 45%, 240px);
+  max-width: calc(100% - 3rem);
+  filter:
+    drop-shadow(0 26px 52px rgba(0, 0, 0, 0.44))
+    drop-shadow(0 0 14px rgba(142, 227, 109, 0.18));
   animation: profilePulse 6s ease-in-out infinite;
 }
 
@@ -347,8 +308,11 @@ button {
   place-items: center;
   opacity: 0.68;
   pointer-events: none;
-  animation-timing-function: linear;
+  animation-name: satelliteDrift;
+  animation-duration: 7s;
+  animation-timing-function: ease-in-out;
   animation-iteration-count: infinite;
+  transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
 }
 
 .orbit-tool {
@@ -359,161 +323,75 @@ button {
 }
 
 .orbit-node-ida {
-  animation-name: orbitIda;
-  animation-duration: 12.6s;
+  --sat-x: calc(-1 * clamp(142px, 26vw, 214px));
+  --sat-y: calc(-1 * clamp(32px, 6vw, 60px));
+  --sat-float-x: -8px;
+  --sat-float-y: 13px;
+  animation-delay: -0.8s;
 }
 
 .orbit-node-ghidra {
   width: clamp(36px, 7.4vw, 76px);
-  animation-name: orbitGhidra;
-  animation-duration: 14.8s;
-  animation-delay: -3.2s;
+  --sat-x: clamp(116px, 22vw, 190px);
+  --sat-y: calc(-1 * clamp(86px, 15vw, 132px));
+  --sat-float-x: 12px;
+  --sat-float-y: 9px;
+  animation-delay: -2.2s;
 }
 
 .orbit-node-blender {
-  animation-name: orbitBlender;
-  animation-duration: 11.4s;
-  animation-delay: -1.4s;
+  --sat-x: clamp(140px, 26vw, 220px);
+  --sat-y: clamp(74px, 14vw, 126px);
+  --sat-float-x: -10px;
+  --sat-float-y: -11px;
+  animation-duration: 7.8s;
+  animation-delay: -3.8s;
 }
 
 .orbit-node-x64dbg {
   width: clamp(32px, 6.4vw, 64px);
-  animation-name: orbitX64dbg;
-  animation-duration: 16.2s;
-  animation-delay: -6.1s;
+  --sat-x: calc(-1 * clamp(94px, 18vw, 160px));
+  --sat-y: clamp(108px, 18vw, 146px);
+  --sat-float-x: 10px;
+  --sat-float-y: -8px;
+  animation-duration: 8.4s;
+  animation-delay: -5.1s;
 }
 
 .orbit-node-ollydbg {
   width: clamp(30px, 5vw, 54px);
-  animation-name: orbitOllydbg;
-  animation-duration: 13.5s;
-  animation-delay: -8.2s;
+  --sat-x: calc(-1 * clamp(168px, 27vw, 232px));
+  --sat-y: clamp(76px, 14vw, 116px);
+  --sat-float-x: 9px;
+  --sat-float-y: 10px;
+  animation-duration: 6.6s;
+  animation-delay: -1.6s;
 }
 
 @keyframes profilePulse {
   0%,
   100% {
     transform: translateY(0) scale(1);
-    box-shadow:
-      0 26px 70px rgba(0, 0, 0, 0.36),
-      0 0 0 8px rgba(142, 227, 109, 0.04);
   }
 
   50% {
     transform: translateY(-6px) scale(1.02);
-    box-shadow:
-      0 32px 82px rgba(0, 0, 0, 0.42),
-      0 0 0 10px rgba(142, 227, 109, 0.07);
   }
 }
 
-@keyframes orbitIda {
+@keyframes satelliteDrift {
   0% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(150px, 25vw, 218px)), clamp(8px, 2vw, 18px)) scale(0.86);
-    opacity: 0.42;
+    transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
   }
 
-  27% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(36px, 7vw, 68px)), calc(-1 * clamp(118px, 16vw, 152px))) scale(0.78);
-    opacity: 0.32;
-  }
-
-  58% {
-    transform: translate(-50%, -50%) translate(clamp(142px, 24vw, 214px), calc(-1 * clamp(36px, 7vw, 64px))) scale(0.9);
-    opacity: 0.62;
+  50% {
+    transform:
+      translate(-50%, -50%)
+      translate(calc(var(--sat-x) + var(--sat-float-x)), calc(var(--sat-y) + var(--sat-float-y)));
   }
 
   100% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(150px, 25vw, 218px)), clamp(8px, 2vw, 18px)) scale(0.86);
-    opacity: 0.42;
-  }
-}
-
-@keyframes orbitGhidra {
-  0% {
-    transform: translate(-50%, -50%) translate(clamp(82px, 16vw, 150px), calc(-1 * clamp(112px, 15vw, 146px))) scale(0.78);
-    opacity: 0.36;
-  }
-
-  34% {
-    transform: translate(-50%, -50%) translate(clamp(168px, 28vw, 236px), clamp(54px, 10vw, 96px)) scale(0.94);
-    opacity: 0.67;
-  }
-
-  71% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(94px, 17vw, 158px)), clamp(102px, 16vw, 132px)) scale(0.72);
-    opacity: 0.28;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) translate(clamp(82px, 16vw, 150px), calc(-1 * clamp(112px, 15vw, 146px))) scale(0.78);
-    opacity: 0.36;
-  }
-}
-
-@keyframes orbitBlender {
-  0% {
-    transform: translate(-50%, -50%) translate(clamp(166px, 27vw, 232px), calc(-1 * clamp(28px, 5vw, 60px))) scale(0.9);
-    opacity: 0.62;
-  }
-
-  21% {
-    transform: translate(-50%, -50%) translate(clamp(36px, 8vw, 80px), clamp(132px, 19vw, 170px)) scale(0.78);
-    opacity: 0.35;
-  }
-
-  54% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(154px, 25vw, 220px)), clamp(44px, 9vw, 82px)) scale(0.88);
-    opacity: 0.58;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) translate(clamp(166px, 27vw, 232px), calc(-1 * clamp(28px, 5vw, 60px))) scale(0.9);
-    opacity: 0.62;
-  }
-}
-
-@keyframes orbitX64dbg {
-  0% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(70px, 14vw, 126px)), calc(-1 * clamp(118px, 16vw, 158px))) scale(0.72);
-    opacity: 0.28;
-  }
-
-  42% {
-    transform: translate(-50%, -50%) translate(clamp(118px, 20vw, 190px), clamp(116px, 18vw, 152px)) scale(0.86);
-    opacity: 0.5;
-  }
-
-  77% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(180px, 28vw, 248px)), clamp(18px, 4vw, 42px)) scale(0.94);
-    opacity: 0.64;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(70px, 14vw, 126px)), calc(-1 * clamp(118px, 16vw, 158px))) scale(0.72);
-    opacity: 0.28;
-  }
-}
-
-@keyframes orbitOllydbg {
-  0% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(166px, 27vw, 234px)), clamp(118px, 18vw, 150px)) scale(0.92);
-    opacity: 0.6;
-  }
-
-  31% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(132px, 22vw, 196px)), calc(-1 * clamp(52px, 10vw, 88px))) scale(0.76);
-    opacity: 0.31;
-  }
-
-  63% {
-    transform: translate(-50%, -50%) translate(clamp(62px, 13vw, 130px), clamp(138px, 19vw, 170px)) scale(0.82);
-    opacity: 0.45;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) translate(calc(-1 * clamp(166px, 27vw, 234px)), clamp(118px, 18vw, 150px)) scale(0.92);
-    opacity: 0.6;
+    transform: translate(-50%, -50%) translate(var(--sat-x), var(--sat-y));
   }
 }
 
@@ -632,7 +510,7 @@ button {
 
 .terminal-visual {
   position: relative;
-  height: 150px;
+  height: 172px;
   margin: 1rem;
   overflow: hidden;
   border: 1px solid rgba(142, 227, 109, 0.18);
@@ -640,7 +518,7 @@ button {
   background:
     linear-gradient(rgba(142, 227, 109, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(142, 227, 109, 0.06) 1px, transparent 1px),
-    radial-gradient(circle at 50% 60%, rgba(142, 227, 109, 0.14), transparent 46%),
+    radial-gradient(circle at 50% 76%, rgba(142, 227, 109, 0.12), transparent 46%),
     rgba(2, 12, 7, 0.72);
   background-size:
     100% 18px,
@@ -667,69 +545,17 @@ button {
   pointer-events: none;
 }
 
-.scan-rain span {
-  position: absolute;
-  left: var(--x);
-  bottom: -2rem;
-  z-index: 1;
-  color: rgba(142, 227, 109, 0.82);
-  font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.72rem;
-  text-shadow: 0 0 12px rgba(142, 227, 109, 0.55);
-  animation: dataRise 3.8s linear infinite;
-  animation-delay: var(--delay);
-}
-
-.assembly-field {
+.terminal-sequence {
   position: absolute;
   inset: 0;
   z-index: 2;
+  font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, monospace;
 }
 
-.assembly-core,
-.assembly-flash,
-.assembly-piece,
-.assembly-result {
+.boot-ready {
   position: absolute;
   left: 50%;
-  top: 58%;
-  display: block;
-}
-
-.assembly-core,
-.assembly-piece {
-  border: 1px solid rgba(142, 227, 109, 0.72);
-  background: rgba(142, 227, 109, 0.13);
-  box-shadow:
-    0 0 18px rgba(142, 227, 109, 0.28),
-    inset 0 0 14px rgba(142, 227, 109, 0.15);
-}
-
-.assembly-core {
-  width: 64px;
-  height: 38px;
-  border-radius: 8px;
-  transform: translate(-50%, -50%) scale(0.7);
-  opacity: 0;
-  animation: coreLock 4.8s ease-in-out infinite;
-}
-
-.assembly-flash {
-  z-index: 3;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: rgba(220, 255, 198, 0.72);
-  box-shadow:
-    0 0 18px rgba(142, 227, 109, 0.8),
-    0 0 42px rgba(123, 209, 255, 0.42);
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  animation: flashBurst 4.8s ease-in-out infinite;
-}
-
-.assembly-result {
-  z-index: 4;
+  top: 50%;
   min-width: 154px;
   padding: 0.55rem 0.72rem;
   border: 1px solid rgba(142, 227, 109, 0.76);
@@ -741,107 +567,51 @@ button {
   box-shadow:
     0 0 0 1px rgba(142, 227, 109, 0.18),
     0 0 28px rgba(142, 227, 109, 0.38);
-  font-family: "SFMono-Regular", ui-monospace, Menlo, Monaco, Consolas, monospace;
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-align: center;
   text-shadow: 0 0 12px rgba(142, 227, 109, 0.62);
-  transform: translate(-50%, -50%) scale(0.74);
+  transform: translate(-50%, -50%) scale(0.78);
   opacity: 0;
-  animation: resultSnap 4.8s ease-in-out infinite;
+  animation: bootReady 9s ease-in-out infinite;
 }
 
-.assembly-result::before,
-.assembly-result::after {
+.boot-log {
   position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: -9rem;
+  display: grid;
+  gap: 0.38rem;
+  color: rgba(188, 255, 160, 0.88);
+  font-size: 0.72rem;
+  line-height: 1.2;
+  text-shadow: 0 0 12px rgba(142, 227, 109, 0.55);
+  animation: bootLog 9s cubic-bezier(0.2, 0.86, 0.28, 1) infinite;
+}
+
+.boot-log span {
+  display: block;
+}
+
+.boot-greeting {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
   top: 50%;
-  width: 42px;
-  height: 1px;
-  content: "";
-  background: linear-gradient(90deg, transparent, rgba(142, 227, 109, 0.9));
-  transform: translateY(-50%);
+  display: grid;
+  gap: 0.42rem;
+  color: #dfffce;
+  font-size: 0.82rem;
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow:
+    0 0 12px rgba(142, 227, 109, 0.66),
+    0 0 24px rgba(123, 209, 255, 0.24);
+  transform: translateY(-34%) translateX(-0.5rem);
   opacity: 0;
-  animation: resultStreak 4.8s ease-in-out infinite;
-}
-
-.assembly-result::before {
-  right: calc(100% + 8px);
-}
-
-.assembly-result::after {
-  left: calc(100% + 8px);
-  transform: translateY(-50%) rotate(180deg);
-}
-
-.assembly-core::before,
-.assembly-core::after {
-  position: absolute;
-  content: "";
-  background: rgba(142, 227, 109, 0.7);
-}
-
-.assembly-core::before {
-  left: 12px;
-  right: 12px;
-  top: 50%;
-  height: 1px;
-}
-
-.assembly-core::after {
-  left: 50%;
-  top: 8px;
-  bottom: 8px;
-  width: 1px;
-}
-
-.assembly-piece {
-  width: 18px;
-  height: 18px;
-  transform: translate(var(--from-x), var(--from-y)) rotate(var(--from-r));
-  opacity: 0.28;
-  animation: pieceAssemble 4.8s ease-in-out infinite;
-}
-
-.piece-a {
-  --from-x: -170px;
-  --from-y: 42px;
-  --from-r: -42deg;
-}
-
-.piece-b {
-  --from-x: 150px;
-  --from-y: 46px;
-  --from-r: 34deg;
-  animation-delay: 0.08s;
-}
-
-.piece-c {
-  --from-x: -116px;
-  --from-y: -68px;
-  --from-r: 58deg;
-  animation-delay: 0.16s;
-}
-
-.piece-d {
-  --from-x: 108px;
-  --from-y: -72px;
-  --from-r: -52deg;
-  animation-delay: 0.24s;
-}
-
-.piece-e {
-  --from-x: -32px;
-  --from-y: 70px;
-  --from-r: 21deg;
-  animation-delay: 0.32s;
-}
-
-.piece-f {
-  --from-x: 38px;
-  --from-y: -92px;
-  --from-r: -18deg;
-  animation-delay: 0.4s;
+  animation: bootGreeting 9s ease-in-out infinite;
 }
 
 @keyframes terminalScan {
@@ -854,120 +624,64 @@ button {
   }
 }
 
-@keyframes dataRise {
+@keyframes bootReady {
   0% {
+    transform: translate(-50%, -50%) scale(0.78);
+    opacity: 0;
+  }
+
+  8%,
+  20% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  28%,
+  100% {
+    transform: translate(-50%, -50%) scale(1.08);
+    opacity: 0;
+  }
+}
+
+@keyframes bootLog {
+  0%,
+  22% {
     transform: translateY(0);
     opacity: 0;
   }
 
-  12%,
-  72% {
+  30% {
     opacity: 1;
   }
 
+  68% {
+    transform: translateY(-162px);
+    opacity: 1;
+  }
+
+  78%,
   100% {
     transform: translateY(-190px);
     opacity: 0;
   }
 }
 
-@keyframes pieceAssemble {
+@keyframes bootGreeting {
   0%,
-  26% {
-    transform: translate(var(--from-x), var(--from-y)) rotate(var(--from-r));
-    opacity: 0.16;
-  }
-
-  58%,
-  78% {
-    transform: translate(-50%, -50%) rotate(0deg);
-    opacity: 0.92;
-  }
-
-  100% {
-    transform: translate(-50%, -50%) scale(0.7);
-    opacity: 0;
-  }
-}
-
-@keyframes coreLock {
-  0%,
-  46% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7);
-  }
-
-  58%,
-  90% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(1.16);
-  }
-}
-
-@keyframes flashBurst {
-  0%,
-  52% {
-    transform: translate(-50%, -50%) scale(0);
+  68% {
+    transform: translateY(-28%) translateX(-0.5rem);
     opacity: 0;
   }
 
-  58% {
-    transform: translate(-50%, -50%) scale(8.4);
-    opacity: 0.42;
-  }
-
-  68%,
-  100% {
-    transform: translate(-50%, -50%) scale(12);
-    opacity: 0;
-  }
-}
-
-@keyframes resultSnap {
-  0%,
-  55% {
-    transform: translate(-50%, -50%) scale(0.74);
-    opacity: 0;
-  }
-
-  61% {
-    transform: translate(-50%, -50%) scale(1.08);
-    opacity: 1;
-  }
-
-  67%,
-  91% {
-    transform: translate(-50%, -50%) scale(1);
+  76%,
+  92% {
+    transform: translateY(-34%) translateX(0);
     opacity: 1;
   }
 
   100% {
-    transform: translate(-50%, -50%) scale(1.08);
+    transform: translateY(-42%) translateX(0);
     opacity: 0;
-  }
-}
-
-@keyframes resultStreak {
-  0%,
-  56% {
-    opacity: 0;
-    width: 0;
-  }
-
-  62% {
-    opacity: 1;
-    width: 56px;
-  }
-
-  78%,
-  100% {
-    opacity: 0;
-    width: 18px;
   }
 }
 
