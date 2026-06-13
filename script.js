@@ -787,8 +787,8 @@ const initToolAtom = async () => {
 
     const createAvatar = () => {
       const avatar = new THREE.Group();
-      avatar.scale.set(1.08, 1.08, 1.08);
-      avatar.position.set(0, -0.16, 0);
+      avatar.scale.set(1.26, 1.26, 1.26);
+      avatar.position.set(0, -0.1, 0);
 
       const head = addMesh(avatar, new THREE.SphereGeometry(0.66, 48, 28), skinMaterial, [0, 0.13, 0.08], [0.96, 1.05, 0.82]);
       head.name = "CONTA avatar head";
@@ -971,7 +971,7 @@ const initToolAtom = async () => {
       group.rotation.y = Math.sin(time * 0.22) * 0.12;
       group.rotation.x = Math.sin(time * 0.18) * 0.06;
       nucleus.rotation.y = time * 0.82;
-      nucleus.position.y = -0.04 + Math.sin(time * 1.2) * 0.035;
+      nucleus.position.y = -0.1 + Math.sin(time * 1.2) * 0.035;
 
       tools.forEach((tool) => {
         const t = time * tool.speed + tool.phase;
