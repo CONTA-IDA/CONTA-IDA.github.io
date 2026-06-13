@@ -285,56 +285,74 @@ button {
   place-items: center;
 }
 
-.figure-render {
+.figure-turntable {
   position: relative;
   z-index: 2;
-  width: clamp(260px, 68%, 390px);
-  height: auto;
-  max-width: calc(100% - 1rem);
-  object-fit: contain;
-  display: block;
+  width: clamp(235px, 64%, 350px);
+  aspect-ratio: 325 / 460;
+  background-image: url("assets/conta-turntable.png");
+  background-repeat: no-repeat;
+  background-size: 800% 100%;
+  background-position: 0 0;
   filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.34));
-  animation: figureFloat 7s ease-in-out infinite;
+  animation:
+    figureSpin 1.6s steps(1, end) infinite,
+    figureFloat 7s ease-in-out infinite;
 }
 
 .figure-tool {
   position: absolute;
   z-index: 1;
+  left: 50%;
+  top: 50%;
   width: clamp(34px, 7vw, 70px);
   object-fit: contain;
   opacity: 0.54;
   filter: saturate(0.95) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.25));
-  animation: toolDrift 9s ease-in-out infinite;
+  --orbit-x: 210px;
+  --orbit-y: 126px;
+  --orbit-start: 0deg;
+  --orbit-duration: 11s;
+  animation: toolOrbit var(--orbit-duration) linear infinite;
 }
 
 .figure-tool-ida {
-  left: 7%;
-  top: 44%;
+  --orbit-start: 188deg;
+  --orbit-x: clamp(140px, 26vw, 220px);
+  --orbit-y: clamp(78px, 14vw, 128px);
 }
 
 .figure-tool-ghidra {
-  right: 6%;
-  top: 23%;
-  animation-delay: -2s;
+  --orbit-start: 318deg;
+  --orbit-x: clamp(132px, 25vw, 210px);
+  --orbit-y: clamp(74px, 13vw, 118px);
+  --orbit-duration: 12.5s;
+  animation-delay: -2.1s;
 }
 
 .figure-tool-blender {
-  right: 4%;
-  bottom: 18%;
-  animation-delay: -3.6s;
+  --orbit-start: 34deg;
+  --orbit-x: clamp(150px, 27vw, 230px);
+  --orbit-y: clamp(82px, 15vw, 132px);
+  --orbit-duration: 10.5s;
+  animation-delay: -4.2s;
 }
 
 .figure-tool-x64dbg {
-  left: 16%;
-  bottom: 14%;
-  animation-delay: -5.2s;
+  --orbit-start: 126deg;
+  --orbit-x: clamp(124px, 23vw, 198px);
+  --orbit-y: clamp(70px, 12vw, 110px);
+  --orbit-duration: 13s;
+  animation-delay: -5.8s;
 }
 
 .figure-tool-ollydbg {
-  left: 3%;
-  top: 68%;
   width: clamp(30px, 5vw, 54px);
-  animation-delay: -6.4s;
+  --orbit-start: 252deg;
+  --orbit-x: clamp(156px, 28vw, 236px);
+  --orbit-y: clamp(86px, 15vw, 136px);
+  --orbit-duration: 14s;
+  animation-delay: -7.6s;
 }
 
 @keyframes figureFloat {
@@ -348,14 +366,67 @@ button {
   }
 }
 
-@keyframes toolDrift {
+@keyframes figureSpin {
   0%,
+  12.499% {
+    background-position-x: 0%;
+  }
+
+  12.5%,
+  24.999% {
+    background-position-x: 14.285714%;
+  }
+
+  25%,
+  37.499% {
+    background-position-x: 28.571428%;
+  }
+
+  37.5%,
+  49.999% {
+    background-position-x: 42.857142%;
+  }
+
+  50%,
+  62.499% {
+    background-position-x: 57.142856%;
+  }
+
+  62.5%,
+  74.999% {
+    background-position-x: 71.42857%;
+  }
+
+  75%,
+  87.499% {
+    background-position-x: 85.714284%;
+  }
+
+  87.5%,
   100% {
-    transform: translateY(0);
+    background-position-x: 100%;
+  }
+}
+
+@keyframes toolOrbit {
+  from {
+    transform:
+      translate(-50%, -50%)
+      rotate(var(--orbit-start))
+      translateX(var(--orbit-x))
+      scale(0.88);
   }
 
   50% {
-    transform: translateY(-8px);
+    opacity: 0.3;
+  }
+
+  to {
+    transform:
+      translate(-50%, -50%)
+      rotate(calc(var(--orbit-start) + 360deg))
+      translateX(var(--orbit-x))
+      scale(0.88);
   }
 }
 
