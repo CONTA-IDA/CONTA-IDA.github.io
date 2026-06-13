@@ -82,9 +82,9 @@ const translations = {
     projectToolingArtifact: "재사용 가능한 스크립트, 명령어 예시, 분석 로그 템플릿",
     projectBubbleTitle: "Client-Side Game Revival Lab",
     projectBubbleText:
-      "서비스가 종료된 게임의 클라이언트 동작을 분석해 서버 데이터와 원본 리소스 없이 조작감, 규칙, 전투 흐름을 클린룸 방식으로 재구현합니다.",
+      "서비스가 종료된 게임을 서버 데이터 없이 클라이언트만으로 동적 분석해 조작감, 규칙, 전투 흐름을 클린룸 방식으로 재구현합니다. 원본 리소스에는 의존하지 않습니다.",
     projectBubbleMethod:
-      "IDA/Ghidra로 클라이언트의 입력, 판정, 카메라, 통신 흐름을 추적해 작은 시스템으로 옮깁니다.",
+      "IDA/Ghidra/x64dbg로 실행 중 입력, 판정, 카메라, 통신 흐름을 추적해 작은 시스템으로 옮깁니다.",
     projectBubbleArtifact: "클라이언트 기반 프로토타입, 대체 에셋, 동작 추정 노트",
     labelMethod: "방식",
     labelArtifact: "산출물",
@@ -173,9 +173,9 @@ const translations = {
     projectToolingArtifact: "Reusable scripts, command examples, and analysis log templates",
     projectBubbleTitle: "Client-Side Game Revival Lab",
     projectBubbleText:
-      "A clean-room recreation project that studies discontinued game clients and rebuilds controls, rules, and combat flow without server data or original resources.",
+      "A clean-room recreation project that rebuilds controls, rules, and combat flow through dynamic analysis of the client alone, without server data. It does not rely on original resources.",
     projectBubbleMethod:
-      "Trace client-side input, hit detection, camera, and network flow with IDA/Ghidra, then rebuild the behavior as small systems.",
+      "Trace runtime input, hit detection, camera, and network flow with IDA/Ghidra/x64dbg, then rebuild the behavior as small systems.",
     projectBubbleArtifact: "Client-based prototypes, replacement assets, and behavior notes",
     labelMethod: "Method",
     labelArtifact: "Artifact",
@@ -260,9 +260,9 @@ const translations = {
     projectToolingArtifact: "可复用脚本、命令示例和分析日志模板",
     projectBubbleTitle: "客户端游戏复现实验室",
     projectBubbleText:
-      "通过分析已停服游戏的客户端行为，在没有服务器数据和原始资源的情况下，以净室方式复现操作手感、规则和战斗流程。",
+      "在没有服务器数据的情况下，仅通过客户端动态分析，以净室方式复现已停服游戏的操作手感、规则和战斗流程，并且不依赖原始资源。",
     projectBubbleMethod:
-      "用 IDA/Ghidra 跟踪客户端的输入、判定、相机和通信流程，再拆成小系统重建。",
+      "用 IDA/Ghidra/x64dbg 跟踪运行中的输入、判定、相机和通信流程，再拆成小系统重建。",
     projectBubbleArtifact: "客户端原型、替代资源、行为推测记录",
     labelMethod: "方法",
     labelArtifact: "产出",
