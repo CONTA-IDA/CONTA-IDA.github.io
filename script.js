@@ -741,22 +741,87 @@ const initToolAtom = async () => {
       return texture;
     };
 
-    const [profileTexture, idaTexture, ghidraTexture, blenderTexture] = await Promise.all([
-      loadTexture(atomCanvas.dataset.profileSrc),
+    const [idaTexture, ghidraTexture, blenderTexture, x64dbgTexture, ollydbgTexture] = await Promise.all([
       loadTexture(atomCanvas.dataset.idaSrc),
       loadTexture(atomCanvas.dataset.ghidraSrc),
       loadTexture(atomCanvas.dataset.blenderSrc),
+      loadTexture(atomCanvas.dataset.x64dbgSrc),
+      loadTexture(atomCanvas.dataset.ollydbgSrc),
     ]);
 
-    const nucleus = new THREE.Sprite(
-      new THREE.SpriteMaterial({
-        map: profileTexture,
-        transparent: true,
-        depthTest: false,
-      }),
-    );
-    nucleus.renderOrder = 2;
-    nucleus.scale.set(1.9, 1.9, 1);
+    const makeMaterial = (color, options = {}) =>
+      new THREE.MeshStandardMaterial({
+        color,
+        roughness: 0.7,
+        metalness: 0.04,
+        ...options,
+      });
+
+    const skinMaterial = makeMaterial(0xffc78a);
+    const hairMaterial = makeMaterial(0xc47b42);
+    const hatMaterial = makeMaterial(0xffdf63);
+    const blackMaterial = makeMaterial(0x1f2022);
+    const whiteMaterial = makeMaterial(0xf7f8f3);
+    const lineMaterial = makeMaterial(0x202124);
+    const flameMaterial = makeMaterial(0xff8a32, { emissive: 0xff5a22, emissiveIntensity: 0.55 });
+
+    const addMesh = (parent, geometry, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) => {
+      const mesh = new THREE.Mesh(geometry, material);
+      mesh.position.set(...position);
+      mesh.scale.set(...scale);
+      mesh.rotation.set(...rotation);
+      parent.add(mesh);
+      return mesh;
+    };
+
+    const createAvatar = () => {
+      const avatar = new THREE.Group();
+      avatar.scale.set(0.92, 0.92, 0.92);
+      avatar.position.set(0, -0.04, 0);
+
+      addMesh(avatar, new THREE.SphereGeometry(0.72, 36, 24), skinMaterial, [0, 0.1, 0], [0.94, 1.03, 0.84]);
+      addMesh(avatar, new THREE.SphereGeometry(0.5, 28, 18), whiteMaterial, [0, -0.18, 0.5], [1.25, 0.55, 0.18]);
+      addMesh(avatar, new THREE.SphereGeometry(0.58, 28, 18), hairMaterial, [-0.42, -0.07, -0.12], [0.42, 1.38, 0.35]);
+      addMesh(avatar, new THREE.SphereGeometry(0.58, 28, 18), hairMaterial, [0.42, -0.08, -0.12], [0.42, 1.42, 0.35]);
+      addMesh(avatar, new THREE.SphereGeometry(0.48, 28, 16), hairMaterial, [0, 0.34, 0.1], [0.9, 0.35, 0.33]);
+
+      addMesh(avatar, new THREE.CylinderGeometry(0.5, 0.6, 0.3, 48), hatMaterial, [0, 0.82, 0], [1, 0.82, 1]);
+      addMesh(avatar, new THREE.CylinderGeometry(0.78, 0.78, 0.07, 48), hatMaterial, [0, 0.62, 0.14], [1.12, 0.7, 0.58]);
+      addMesh(avatar, new THREE.BoxGeometry(0.52, 0.08, 0.12), blackMaterial, [0, 0.72, 0.54], [1, 1, 1], [0, 0, 0.02]);
+
+      [
+        [-0.28, 0.11, 0.66],
+        [0.28, 0.11, 0.66],
+      ].forEach(([x, y, z]) => {
+        addMesh(avatar, new THREE.CircleGeometry(0.2, 36), whiteMaterial, [x, y, z]);
+        addMesh(avatar, new THREE.TorusGeometry(0.2, 0.025, 10, 36), lineMaterial, [x, y, z + 0.015]);
+        addMesh(avatar, new THREE.CircleGeometry(0.07, 24), lineMaterial, [x + 0.02, y - 0.02, z + 0.03]);
+      });
+
+      addMesh(avatar, new THREE.BoxGeometry(0.34, 0.04, 0.05), lineMaterial, [-0.25, 0.38, 0.66], [1, 1, 1], [0, 0, -0.07]);
+      addMesh(avatar, new THREE.BoxGeometry(0.34, 0.04, 0.05), lineMaterial, [0.25, 0.38, 0.66], [1, 1, 1], [0, 0, 0.07]);
+
+      [
+        [-0.17, -0.31, 0.71, 0.7],
+        [0, -0.36, 0.72, 0],
+        [0.17, -0.31, 0.71, -0.7],
+      ].forEach(([x, y, z, rz]) => {
+        addMesh(avatar, new THREE.BoxGeometry(0.04, 0.42, 0.05), lineMaterial, [x, y, z], [1, 1, 1], [0, 0, rz]);
+      });
+
+      addMesh(avatar, new THREE.ConeGeometry(0.48, 0.7, 4), blackMaterial, [0, -0.98, 0], [1, 1, 0.54], [0, 0, Math.PI / 4]);
+      addMesh(avatar, new THREE.BoxGeometry(0.1, 0.46, 0.08), whiteMaterial, [-0.15, -0.91, 0.34], [1, 1, 1], [0, 0, -0.42]);
+      addMesh(avatar, new THREE.BoxGeometry(0.1, 0.46, 0.08), whiteMaterial, [0.15, -0.91, 0.34], [1, 1, 1], [0, 0, 0.42]);
+
+      addMesh(avatar, new THREE.SphereGeometry(0.13, 18, 12), skinMaterial, [-0.56, -0.82, 0.3], [1, 1, 1]);
+      addMesh(avatar, new THREE.SphereGeometry(0.13, 18, 12), skinMaterial, [0.56, -0.82, 0.3], [1, 1, 1]);
+      addMesh(avatar, new THREE.ConeGeometry(0.06, 0.18, 18), flameMaterial, [-0.56, -0.6, 0.35]);
+      addMesh(avatar, new THREE.ConeGeometry(0.06, 0.18, 18), flameMaterial, [0.56, -0.6, 0.35]);
+
+      return avatar;
+    };
+
+    const nucleus = createAvatar();
     group.add(nucleus);
 
     const tools = [
@@ -787,6 +852,26 @@ const initToolAtom = async () => {
         texture: blenderTexture,
         scale: 0.76,
       },
+      {
+        name: "x64dbg",
+        phase: 1.2,
+        speed: 0.58,
+        radius: 2.7,
+        rotation: [0.92, -0.82, -0.52],
+        texture: x64dbgTexture,
+        scale: 0.68,
+      },
+      {
+        name: "OllyDbg",
+        phase: 3.35,
+        speed: 0.54,
+        radius: 2.64,
+        rotation: [1.12, 0.72, -0.95],
+        texture: ollydbgTexture,
+        scale: 0.72,
+        scaleX: 1.04,
+        scaleY: 0.58,
+      },
     ].map((tool) => {
       const orbitGroup = new THREE.Group();
       orbitGroup.rotation.set(...tool.rotation);
@@ -796,11 +881,11 @@ const initToolAtom = async () => {
         new THREE.SpriteMaterial({
           map: tool.texture,
           transparent: true,
-          depthTest: false,
+          depthTest: true,
+          depthWrite: false,
         }),
       );
-      icon.renderOrder = 4;
-      icon.scale.set(tool.scale, tool.scale, 1);
+      icon.scale.set(tool.scale * (tool.scaleX || 1), tool.scale * (tool.scaleY || 1), 1);
       orbitGroup.add(icon);
 
       return { ...tool, orbitGroup, icon };
@@ -828,6 +913,8 @@ const initToolAtom = async () => {
       const time = clock.getElapsedTime();
       group.rotation.y = Math.sin(time * 0.22) * 0.12;
       group.rotation.x = Math.sin(time * 0.18) * 0.06;
+      nucleus.rotation.y = time * 0.82;
+      nucleus.position.y = -0.04 + Math.sin(time * 1.2) * 0.035;
 
       tools.forEach((tool) => {
         const t = time * tool.speed + tool.phase;
@@ -836,10 +923,9 @@ const initToolAtom = async () => {
 
         const worldPoint = new THREE.Vector3();
         tool.icon.getWorldPosition(worldPoint);
-        const depthScale = THREE.MathUtils.mapLinear(worldPoint.z, -2.2, 2.2, 0.76, 1);
+        const depthScale = THREE.MathUtils.mapLinear(worldPoint.z, -2.8, 2.8, 0.72, 1.05);
         const scale = THREE.MathUtils.clamp(depthScale, 0.72, 1);
-        tool.icon.scale.set(tool.scale * scale, tool.scale * scale, 1);
-        tool.icon.renderOrder = worldPoint.z < 0 ? 1 : 4;
+        tool.icon.scale.set(tool.scale * (tool.scaleX || 1) * scale, tool.scale * (tool.scaleY || 1) * scale, 1);
       });
 
       renderer.render(scene, camera);

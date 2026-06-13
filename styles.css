@@ -335,6 +335,16 @@ button {
   top: 53%;
 }
 
+.fallback-icon-x64dbg {
+  right: 25%;
+  top: 24%;
+}
+
+.fallback-icon-ollydbg {
+  left: 17%;
+  bottom: 22%;
+}
+
 .eyebrow,
 .section-kicker {
   margin: 0 0 0.8rem;
