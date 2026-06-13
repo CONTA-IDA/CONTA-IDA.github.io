@@ -771,6 +771,9 @@ const initToolAtom = async () => {
     const leafMaterial = makeMaterial(0x79b78b);
     const haloMaterial = makeMaterial(0xffd15c, { emissive: 0xb66f1f, emissiveIntensity: 0.28 });
     const goldMaterial = makeMaterial(0xd7a33a, { metalness: 0.16, roughness: 0.46 });
+    const filterMaterial = makeMaterial(0xb77a45);
+    const smokeMaterial = makeMaterial(0xcfd5cd, { transparent: true, opacity: 0.46, roughness: 0.95 });
+    const emberMaterial = makeMaterial(0xff4932, { emissive: 0xff2a1c, emissiveIntensity: 0.7 });
     const flameMaterial = makeMaterial(0xff8a32, { emissive: 0xff5a22, emissiveIntensity: 0.55 });
 
     const addMesh = (parent, geometry, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) => {
@@ -836,12 +839,17 @@ const initToolAtom = async () => {
       addMesh(avatar, new THREE.BoxGeometry(0.35, 0.045, 0.05), lineMaterial, [0.25, 0.4, 0.72], [1, 1, 1], [0, 0, 0.1]);
 
       [
-        [-0.2, -0.31, 0.77, 0.72],
-        [0, -0.37, 0.78, 0],
-        [0.2, -0.31, 0.77, -0.72],
-      ].forEach(([x, y, z, rz]) => {
-        addMesh(avatar, new THREE.BoxGeometry(0.04, 0.42, 0.048), lineMaterial, [x, y, z], [1, 1, 1], [0, 0, rz]);
+        [-0.2, -0.37, 0.91, 0.68, [-0.33, -0.53, 0.95]],
+        [0, -0.43, 0.92, 0, [0, -0.66, 0.96]],
+        [0.2, -0.37, 0.91, -0.68, [0.33, -0.53, 0.95]],
+      ].forEach(([x, y, z, rz, tip]) => {
+        addMesh(avatar, new THREE.CylinderGeometry(0.04, 0.04, 0.42, 18), lineMaterial, [x, y, z - 0.02], [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.027, 0.027, 0.39, 18), whiteMaterial, [x, y, z + 0.02], [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.029, 0.029, 0.09, 18), filterMaterial, tip, [1, 1, 1], [0, 0, rz]);
       });
+      addMesh(avatar, new THREE.SphereGeometry(0.044, 16, 10), emberMaterial, [0.4, -0.58, 0.99], [1, 0.78, 0.45]);
+      addMesh(avatar, new THREE.TorusGeometry(0.052, 0.006, 8, 24), smokeMaterial, [0.47, -0.39, 0.98], [1, 0.68, 0.28], [0.3, 0.12, 0.45]);
+      addMesh(avatar, new THREE.TorusGeometry(0.076, 0.006, 8, 28), smokeMaterial, [0.52, -0.21, 0.94], [1, 0.72, 0.28], [0.36, 0.1, 0.34]);
 
       addMesh(avatar, new THREE.ConeGeometry(0.62, 1.0, 12), blackMaterial, [0, -1.08, 0], [1.06, 1, 0.58], [0, 0, Math.PI / 12]);
       addMesh(avatar, new THREE.TorusGeometry(0.47, 0.018, 8, 56), goldMaterial, [0, -1.48, 0.03], [1.2, 0.22, 0.36]);
