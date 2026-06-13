@@ -880,6 +880,39 @@ button {
   object-fit: contain;
 }
 
+.blog-media-gallery {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+}
+
+.blog-media-gallery figcaption {
+  grid-column: 1 / -1;
+}
+
+.gallery-item {
+  overflow: hidden;
+  display: grid;
+  gap: 0.55rem;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-elevated);
+}
+
+.gallery-item img,
+.gallery-item video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--bg);
+  object-fit: contain;
+}
+
+.gallery-item span {
+  padding: 0 0.75rem 0.75rem;
+  color: var(--subtle);
+  font-size: 0.82rem;
+}
+
 .blog-terminal {
   width: 100%;
   min-height: 190px;

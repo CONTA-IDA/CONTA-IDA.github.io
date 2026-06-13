@@ -564,6 +564,43 @@ function createFileMedia(media) {
   return figure;
 }
 
+function createGalleryMedia(media) {
+  const figure = document.createElement("figure");
+  figure.className = "blog-media blog-media-gallery";
+
+  (media.items || []).forEach((item) => {
+    if (!item.src) return;
+
+    const tile = document.createElement("div");
+    tile.className = "gallery-item";
+
+    if (item.type === "video") {
+      const video = document.createElement("video");
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+      video.src = item.src;
+      tile.append(video);
+    } else {
+      const image = document.createElement("img");
+      image.src = item.src;
+      image.alt = item.alt || media.caption || "";
+      tile.append(image);
+    }
+
+    if (item.caption) {
+      const caption = document.createElement("span");
+      caption.textContent = item.caption;
+      tile.append(caption);
+    }
+
+    figure.append(tile);
+  });
+
+  appendCaption(figure, media.caption);
+  return figure;
+}
+
 function createTileMedia(media) {
   const figure = document.createElement("figure");
   figure.className = "blog-media blog-media-split";
@@ -598,6 +635,7 @@ function createBlogMedia(media) {
   if (!media) return null;
   if (media.type === "terminal") return createTerminalMedia(media);
   if (media.type === "tiles") return createTileMedia(media);
+  if (media.type === "gallery") return createGalleryMedia(media);
   if ((media.type === "image" || media.type === "video") && media.src) return createFileMedia(media);
   return null;
 }
