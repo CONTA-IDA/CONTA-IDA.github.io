@@ -726,12 +726,13 @@ const initToolAtom = async () => {
     const group = new THREE.Group();
     scene.add(group);
 
-    const ambient = new THREE.AmbientLight(0xf4efe5, 1.9);
-    const key = new THREE.PointLight(0x8ee36d, 2.2, 12);
-    key.position.set(-3, 3, 5);
-    const rim = new THREE.PointLight(0x34d1bf, 1.6, 10);
-    rim.position.set(4, -2, 4);
-    scene.add(ambient, key, rim);
+    const ambient = new THREE.AmbientLight(0xf4efe5, 2.25);
+    const key = new THREE.PointLight(0x8ee36d, 3, 12);
+    key.position.set(-3, 3.4, 5.4);
+    const rim = new THREE.PointLight(0x34d1bf, 2.25, 10);
+    rim.position.set(4, -1.2, 4.5);
+    const topFill = new THREE.HemisphereLight(0xffffff, 0x202a1e, 0.62);
+    scene.add(ambient, key, rim, topFill);
 
     const textureLoader = new THREE.TextureLoader();
     const loadTexture = async (src) => {
@@ -788,6 +789,170 @@ const initToolAtom = async () => {
     };
 
     const createAvatar = () => {
+      {
+        // Reference-first chibi mesh: the large hood/body silhouette does the work first.
+        const avatar = new THREE.Group();
+        avatar.name = "CONTA turnaround chibi avatar";
+        avatar.scale.set(1.42, 1.42, 1.42);
+        avatar.position.set(0, -0.12, 0);
+
+        const vinylBlack = new THREE.MeshPhysicalMaterial({
+          color: 0x30322c,
+          roughness: 0.42,
+          metalness: 0,
+          clearcoat: 0.34,
+          clearcoatRoughness: 0.58,
+        });
+        const vinylDark = new THREE.MeshPhysicalMaterial({
+          color: 0x1d1f1a,
+          roughness: 0.48,
+          metalness: 0,
+          clearcoat: 0.18,
+          clearcoatRoughness: 0.64,
+        });
+        const skinVinyl = makeMaterial(0xf7bf88, { roughness: 0.5, metalness: 0 });
+        const warmWhite = makeMaterial(0xf8f3df, { roughness: 0.44, metalness: 0 });
+        const mutedYellow = makeMaterial(0xf4d654, { roughness: 0.4, metalness: 0 });
+        const softBrown = makeMaterial(0xb9794a, { roughness: 0.48, metalness: 0 });
+        const leafVinyl = makeMaterial(0x80ad83, { roughness: 0.5, metalness: 0 });
+        const outlineVinyl = makeMaterial(0x191917, { roughness: 0.55, metalness: 0 });
+        const glossVinyl = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.18 });
+
+        const hoodGroup = new THREE.Group();
+        hoodGroup.name = "rounded cat hood and cape";
+        const headGroup = new THREE.Group();
+        headGroup.name = "face and hair";
+        const bodyGroup = new THREE.Group();
+        bodyGroup.name = "small robe body";
+        const propGroup = new THREE.Group();
+        propGroup.name = "candles and cigarette props";
+        const accentGroup = new THREE.Group();
+        accentGroup.name = "flower button braid accents";
+        avatar.add(hoodGroup, headGroup, bodyGroup, propGroup, accentGroup);
+
+        const ellipsoid = (parent, material, position, scale, rotation = [0, 0, 0], width = 40, height = 22) =>
+          addMesh(parent, new THREE.SphereGeometry(1, width, height), material, position, scale, rotation);
+        const capsule = (parent, radius, length, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) =>
+          addMesh(parent, new THREE.CapsuleGeometry(radius, length, 18, 36), material, position, scale, rotation);
+        const cone = (parent, radius, length, material, position, scale = [1, 1, 1], rotation = [0, 0, 0], radial = 32) =>
+          addMesh(parent, new THREE.ConeGeometry(radius, length, radial), material, position, scale, rotation);
+        const cylinder = (parent, top, bottom, length, material, position, scale = [1, 1, 1], rotation = [0, 0, 0], radial = 28) =>
+          addMesh(parent, new THREE.CylinderGeometry(top, bottom, length, radial), material, position, scale, rotation);
+        const box = (parent, size, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) =>
+          addMesh(parent, new THREE.BoxGeometry(...size), material, position, scale, rotation);
+        const torus = (parent, radius, tube, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) =>
+          addMesh(parent, new THREE.TorusGeometry(radius, tube, 10, 72), material, position, scale, rotation);
+
+        ellipsoid(hoodGroup, vinylBlack, [0, 0.22, -0.24], [0.92, 1.14, 0.56]);
+        ellipsoid(hoodGroup, vinylBlack, [0, -0.35, -0.36], [0.76, 1.18, 0.44]);
+        ellipsoid(hoodGroup, vinylBlack, [-0.58, -0.2, 0.08], [0.2, 0.95, 0.22], [0, 0, -0.08]);
+        ellipsoid(hoodGroup, vinylBlack, [0.58, -0.2, 0.08], [0.2, 0.95, 0.22], [0, 0, 0.08]);
+        ellipsoid(hoodGroup, vinylDark, [-0.66, -0.15, 0.17], [0.05, 0.78, 0.05], [0, 0, -0.08], 18, 10);
+        ellipsoid(hoodGroup, vinylDark, [0.66, -0.15, 0.17], [0.05, 0.78, 0.05], [0, 0, 0.08], 18, 10);
+        cone(hoodGroup, 0.23, 0.58, vinylBlack, [-0.57, 1.18, -0.16], [1.16, 1.05, 0.82], [0.1, 0.18, -0.32]);
+        cone(hoodGroup, 0.23, 0.58, vinylBlack, [0.57, 1.18, -0.16], [1.16, 1.05, 0.82], [0.1, -0.18, 0.32]);
+        cone(hoodGroup, 0.19, 0.46, vinylBlack, [-0.5, 1.13, -0.48], [1.12, 1, 0.92], [-0.08, 0.36, -0.22]);
+        cone(hoodGroup, 0.19, 0.46, vinylBlack, [0.5, 1.13, -0.48], [1.12, 1, 0.92], [-0.08, -0.36, 0.22]);
+        cone(hoodGroup, 0.1, 0.2, vinylDark, [-0.57, 1.18, 0.0], [1, 1, 0.52], [0.12, 0.18, -0.32]);
+        cone(hoodGroup, 0.1, 0.2, vinylDark, [0.57, 1.18, 0.0], [1, 1, 0.52], [0.12, -0.18, 0.32]);
+        ellipsoid(hoodGroup, glossVinyl, [0.32, 0.16, -0.58], [0.07, 0.42, 0.018], [0.1, 0.12, -0.14], 18, 10);
+        ellipsoid(hoodGroup, glossVinyl, [0.26, 0.08, -0.72], [0.08, 0.5, 0.018], [0.14, 0.1, -0.18], 18, 10);
+        ellipsoid(hoodGroup, glossVinyl, [-0.28, -1.05, 0.36], [0.14, 0.05, 0.014], [0, 0, -0.2], 18, 8);
+
+        cylinder(headGroup, 0.52, 0.56, 0.17, mutedYellow, [0, 0.62, 0.16], [1, 0.74, 0.88]);
+        box(headGroup, [0.82, 0.1, 0.075], mutedYellow, [0, 0.56, 0.56]);
+        box(headGroup, [0.36, 0.026, 0.045], outlineVinyl, [0.17, 0.61, 0.6], [1, 1, 1], [0, 0, 0.08]);
+        ellipsoid(headGroup, skinVinyl, [0, 0.17, 0.37], [0.43, 0.5, 0.28]);
+        ellipsoid(headGroup, softBrown, [0, 0.31, 0.47], [0.47, 0.24, 0.14]);
+        [
+          [-0.31, 0.2, 0.57, -0.32],
+          [-0.12, 0.16, 0.61, -0.1],
+          [0.1, 0.16, 0.61, 0.12],
+          [0.3, 0.22, 0.57, 0.34],
+        ].forEach(([x, y, z, rz]) => {
+          cone(headGroup, 0.09, 0.32, softBrown, [x, y, z], [1, 1, 0.58], [0, 0, rz], 24);
+        });
+        ellipsoid(headGroup, softBrown, [-0.36, -0.2, 0.31], [0.13, 0.62, 0.11], [0, 0, -0.08], 24, 14);
+        ellipsoid(headGroup, softBrown, [0.36, -0.2, 0.31], [0.13, 0.62, 0.11], [0, 0, 0.08], 24, 14);
+        ellipsoid(headGroup, warmWhite, [-0.22, 0.08, 0.66], [0.14, 0.21, 0.026], [0, 0, -0.02], 28, 14);
+        ellipsoid(headGroup, warmWhite, [0.22, 0.08, 0.66], [0.14, 0.21, 0.026], [0, 0, 0.02], 28, 14);
+        torus(headGroup, 0.16, 0.015, outlineVinyl, [-0.22, 0.08, 0.68], [0.88, 1.28, 0.08]);
+        torus(headGroup, 0.16, 0.015, outlineVinyl, [0.22, 0.08, 0.68], [0.88, 1.28, 0.08]);
+        ellipsoid(headGroup, warmWhite, [0, -0.16, 0.68], [0.31, 0.16, 0.024], [0, 0, 0], 28, 12);
+        box(headGroup, [0.16, 0.03, 0.03], outlineVinyl, [0, -0.08, 0.72]);
+        box(headGroup, [0.28, 0.035, 0.032], outlineVinyl, [-0.23, 0.34, 0.66], [1, 1, 1], [0, 0, -0.12]);
+        box(headGroup, [0.28, 0.035, 0.032], outlineVinyl, [0.23, 0.34, 0.66], [1, 1, 1], [0, 0, 0.12]);
+
+        capsule(bodyGroup, 0.31, 0.62, vinylBlack, [0, -0.94, 0.06], [1.05, 1.02, 0.8]);
+        cone(bodyGroup, 0.48, 0.62, vinylBlack, [0, -1.24, 0.07], [1.02, 1, 0.7], [0, 0, 0.02], 44);
+        ellipsoid(bodyGroup, vinylDark, [-0.18, -1.6, 0.26], [0.17, 0.07, 0.1], [0, 0, 0.02], 22, 10);
+        ellipsoid(bodyGroup, vinylDark, [0.18, -1.6, 0.26], [0.17, 0.07, 0.1], [0, 0, -0.02], 22, 10);
+        ellipsoid(bodyGroup, warmWhite, [-0.16, -0.57, 0.36], [0.2, 0.1, 0.024], [0, 0, -0.16], 20, 10);
+        ellipsoid(bodyGroup, warmWhite, [0.16, -0.57, 0.36], [0.2, 0.1, 0.024], [0, 0, 0.16], 20, 10);
+        box(bodyGroup, [0.05, 0.08, 0.028], warmWhite, [-0.08, -0.78, 0.43], [1, 1, 1], [0, 0, 0.45]);
+        box(bodyGroup, [0.05, 0.08, 0.028], warmWhite, [0.08, -0.78, 0.43], [1, 1, 1], [0, 0, -0.45]);
+        box(bodyGroup, [0.05, 0.08, 0.028], warmWhite, [0, -0.91, 0.43], [1, 1, 1]);
+        ellipsoid(bodyGroup, leafVinyl, [-0.08, -0.68, 0.42], [0.13, 0.065, 0.02], [0, 0, -0.38], 18, 8);
+        ellipsoid(bodyGroup, leafVinyl, [0.08, -0.68, 0.42], [0.13, 0.065, 0.02], [0, 0, 0.38], 18, 8);
+        box(bodyGroup, [0.07, 0.34, 0.07], warmWhite, [-0.11, -0.91, 0.36], [1, 1, 1], [0, 0, -0.3]);
+        box(bodyGroup, [0.07, 0.34, 0.07], warmWhite, [0.11, -0.91, 0.36], [1, 1, 1], [0, 0, 0.3]);
+
+        const makeCandle = (side) => {
+          const x = side * 0.54;
+          capsule(propGroup, 0.045, 0.32, vinylBlack, [side * 0.42, -0.76, 0.27], [0.8, 1, 0.72], [0, 0, side * 0.34]);
+          ellipsoid(propGroup, skinVinyl, [x, -0.65, 0.38], [0.11, 0.12, 0.08], [0, 0, 0], 18, 10);
+          cylinder(propGroup, 0.04, 0.045, 0.28, candleMaterial, [x, -0.41, 0.42], [1, 1, 1]);
+          cylinder(propGroup, 0.01, 0.01, 0.07, outlineVinyl, [x, -0.23, 0.43], [1, 1, 1]);
+          cone(propGroup, 0.055, 0.16, flameMaterial, [x, -0.13, 0.43], [1, 1, 0.72], [0, 0, side * 0.05], 20);
+          ellipsoid(propGroup, emberMaterial, [x + side * 0.012, -0.11, 0.45], [0.025, 0.045, 0.016], [0, 0, 0], 12, 8);
+        };
+        makeCandle(-1);
+        makeCandle(1);
+
+        [
+          [-0.11, -0.2, 0.78, 0.72],
+          [0, -0.23, 0.8, 0],
+          [0.11, -0.2, 0.78, -0.72],
+        ].forEach(([x, y, z, rz], index) => {
+          cylinder(propGroup, 0.014, 0.014, 0.24, warmWhite, [x, y, z], [1, 1, 1], [0, 0, rz], 14);
+          const tipX = x + (index - 1) * 0.08;
+          cylinder(propGroup, 0.015, 0.015, 0.055, filterMaterial, [tipX, y - 0.11, z + 0.01], [1, 1, 1], [0, 0, rz], 14);
+        });
+        ellipsoid(propGroup, emberMaterial, [0.2, -0.31, 0.82], [0.025, 0.017, 0.012], [0, 0, 0], 12, 8);
+        torus(propGroup, 0.045, 0.004, smokeMaterial, [0.28, -0.16, 0.82], [1, 0.62, 0.28], [0.24, 0.04, 0.36]);
+
+        ellipsoid(accentGroup, leafVinyl, [0, 1.22, -0.42], [0.2, 0.13, 0.13], [0, 0, 0], 22, 12);
+        cylinder(accentGroup, 0.035, 0.035, 0.04, outlineVinyl, [0, 1.25, -0.28], [1, 1, 1], [Math.PI / 2, 0, 0], 12);
+        ellipsoid(accentGroup, leafVinyl, [-0.58, 0.31, 0.48], [0.12, 0.06, 0.026], [0, 0, -0.48], 18, 8);
+        ellipsoid(accentGroup, leafVinyl, [-0.47, 0.37, 0.5], [0.12, 0.06, 0.026], [0, 0, 0.48], 18, 8);
+        [
+          [0, 0.05],
+          [0.055, 0.01],
+          [-0.055, 0.01],
+          [0.04, -0.05],
+          [-0.04, -0.05],
+        ].forEach(([dx, dy]) => {
+          ellipsoid(accentGroup, warmWhite, [-0.53 + dx, 0.31 + dy, 0.55], [0.042, 0.035, 0.016], [0, 0, 0], 14, 8);
+        });
+        ellipsoid(accentGroup, mutedYellow, [-0.53, 0.31, 0.58], [0.02, 0.018, 0.012], [0, 0, 0], 10, 6);
+        cylinder(accentGroup, 0.018, 0.018, 1.16, outlineVinyl, [-0.78, -0.38, 0.06], [1, 1, 1], [0, 0, -0.06], 10);
+        [
+          [0.48, -0.14, -0.76],
+          [0.54, -0.38, -0.82],
+          [0.56, -0.62, -0.78],
+          [0.52, -0.86, -0.72],
+          [0.45, -1.1, -0.65],
+        ].forEach(([x, y, z], index) => {
+          ellipsoid(accentGroup, softBrown, [x, y, z], [0.095, 0.115, 0.085], [0, 0, 0], 14, 8);
+          if (index === 1 || index === 3) {
+            torus(accentGroup, 0.062, 0.006, filterMaterial, [x, y - 0.012, z], [1, 0.38, 0.32], [0.1, 0.25, 0.18]);
+          }
+        });
+        ellipsoid(accentGroup, glossVinyl, [0.34, -0.45, -0.66], [0.045, 0.26, 0.012], [0.04, 0.05, -0.12], 14, 8);
+
+        return avatar;
+      }
+
       const avatar = new THREE.Group();
       avatar.scale.set(1.34, 1.34, 1.34);
       avatar.position.set(0, -0.12, 0);
