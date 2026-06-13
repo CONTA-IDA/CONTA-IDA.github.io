@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="CONTA의 소개. 리버스 엔지니어링, 개발, 레거시 게임 재구현에 관심을 둔 포트폴리오입니다."
+      content="CONTA의 리버스 엔지니어링, 분석 자동화, 클라이언트 기반 재구현 작업 소개입니다."
     />
     <title>About | CONTA</title>
     <link rel="icon" type="image/png" href="assets/conta.png" />
-    <link rel="stylesheet" href="styles.css?v=terminal-flow-20260613" />
+    <link rel="stylesheet" href="styles.css?v=final-polish-20260613" />
   </head>
   <body data-page="about">
     <header class="site-header" data-header>
@@ -44,7 +44,7 @@
         <div class="section-inner page-hero-inner">
           <div>
             <p class="section-kicker" data-i18n="aboutKicker">About</p>
-            <h1 id="about-title" data-i18n="aboutTitle">분석하고, 만들고, 시각화합니다.</h1>
+            <h1 id="about-title" data-i18n="aboutTitle">분석하고, 만들고, 다시 구현합니다.</h1>
           </div>
           <img class="page-avatar" src="assets/conta.png" alt="CONTA profile illustration" />
         </div>
@@ -57,13 +57,12 @@
           </div>
           <div class="about-copy">
             <p data-i18n="aboutP1">
-              리버스 엔지니어링을 통해 프로그램이 어떻게 동작하는지 살펴보고,
-              분석 과정에서 필요한 스크립트와 작은 도구를 직접 만드는 일에
-              관심이 많습니다.
+              리버스 엔지니어링으로 프로그램의 동작 방식을 따라가고, 반복되는
+              분석을 줄이기 위한 스크립트와 작은 도구를 직접 만듭니다.
             </p>
             <p data-i18n="aboutP2">
-              IDA Pro, Ghidra 같은 분석 도구와 Python 자동화, 시각화 프로토타입,
-              레거시 게임 재구현 실험을 함께 다룹니다.
+              IDA Pro, Ghidra, x64dbg를 활용한 분석과 Python 자동화, 클라이언트
+              기반 재구현 실험을 중심으로 작업합니다.
             </p>
           </div>
         </div>
@@ -73,7 +72,7 @@
         <div class="section-inner stack-layout">
           <div>
             <p class="section-kicker" data-i18n="stackKicker">Stack</p>
-            <h2 data-i18n="stackTitle">분석과 제작을 오가는 구조를 선호합니다.</h2>
+            <h2 data-i18n="stackTitle">분석한 내용을 도구와 프로토타입으로 옮기는 흐름을 선호합니다.</h2>
           </div>
           <div class="stack-groups">
             <div class="stack-group">
@@ -86,7 +85,7 @@
             </div>
             <div class="stack-group">
               <h3>Model</h3>
-              <p data-i18n="stackModel">Blender, 대체 에셋 제작, 프로토타입 모델링, 레거시 게임 재구현</p>
+              <p data-i18n="stackModel">Blender, 대체 에셋 설계, 프로토타입 모델링, 레거시 게임 재구현</p>
             </div>
           </div>
         </div>
@@ -96,26 +95,26 @@
         <div class="section-inner workflow-layout">
           <div>
             <p class="section-kicker" data-i18n="workflowKicker">Workflow</p>
-            <h2 data-i18n="workflowTitle">분석에서 재구현까지 이어지는 흐름</h2>
+            <h2 data-i18n="workflowTitle">추적한 내용을 재구현으로 옮기는 흐름</h2>
           </div>
           <ol class="workflow-list">
             <li>
               <span>Trace</span>
-              <p data-i18n="workflowTrace">동작을 관찰하고 함수 흐름, 문자열, 상태 변화를 기록합니다.</p>
+              <p data-i18n="workflowTrace">실행 흐름, 문자열, 상태 변화를 관찰하고 기록합니다.</p>
             </li>
             <li>
               <span>Automate</span>
-              <p data-i18n="workflowAutomate">반복 분석은 스크립트와 작은 CLI 도구로 줄입니다.</p>
+              <p data-i18n="workflowAutomate">반복 분석은 스크립트와 작은 CLI 도구로 자동화합니다.</p>
             </li>
             <li>
               <span>Rebuild</span>
-              <p data-i18n="workflowRebuild">핵심 규칙과 조작감을 직접 구현해 프로토타입으로 검증합니다.</p>
+              <p data-i18n="workflowRebuild">확인한 규칙과 조작감을 작은 프로토타입으로 검증합니다.</p>
             </li>
             <li>
               <span>Model</span>
               <p data-i18n="workflowModel">
-                원본 리소스에 의존하지 않고 클라이언트 기반 프로토타입에 필요한
-                대체 에셋과 표현을 설계합니다.
+                원본 리소스에 기대지 않고 필요한 대체 에셋과 표현 방식을
+                설계합니다.
               </p>
             </li>
           </ol>
@@ -128,6 +127,6 @@
       <a href="contact.html" data-i18n="footerContact">Contact</a>
     </footer>
 
-    <script src="script.js?v=client-dynamic-20260613"></script>
+    <script src="script.js?v=final-polish-20260613"></script>
   </body>
 </html>
