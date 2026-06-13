@@ -734,6 +734,12 @@ button {
   align-items: start;
 }
 
+.about-grid > *,
+.stack-layout > *,
+.workflow-layout > * {
+  min-width: 0;
+}
+
 .section h2 {
   margin: 0;
   font-size: 2.55rem;
@@ -1290,6 +1296,8 @@ button {
 }
 
 .stack-groups {
+  width: 100%;
+  min-width: 0;
   display: grid;
   gap: 1px;
   border: 1px solid var(--line);
@@ -1297,6 +1305,7 @@ button {
 }
 
 .stack-group {
+  min-width: 0;
   padding: 1.2rem;
   background: var(--bg-elevated);
 }
