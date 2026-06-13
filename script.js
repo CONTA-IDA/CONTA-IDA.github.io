@@ -752,19 +752,19 @@ const initToolAtom = async () => {
     const makeMaterial = (color, options = {}) =>
       new THREE.MeshStandardMaterial({
         color,
-        roughness: 0.7,
-        metalness: 0.04,
-        flatShading: true,
+        roughness: 0.48,
+        metalness: 0.03,
+        flatShading: false,
         ...options,
       });
 
     const skinMaterial = makeMaterial(0xffc78a);
-    const hairMaterial = makeMaterial(0xd6955d);
+    const hairMaterial = makeMaterial(0xc9824b, { roughness: 0.42 });
     const hatMaterial = makeMaterial(0xffdf63);
-    const blackMaterial = makeMaterial(0x1f2022);
+    const blackMaterial = makeMaterial(0x222320, { roughness: 0.34 });
     const whiteMaterial = makeMaterial(0xf7f8f3);
     const lineMaterial = makeMaterial(0x202124);
-    const veilMaterial = makeMaterial(0xffe37a);
+    const veilMaterial = makeMaterial(0xffdd56, { roughness: 0.38 });
     const veilTrimMaterial = makeMaterial(0xfff2b4);
     const collarMaterial = makeMaterial(0xffffff);
     const candleMaterial = makeMaterial(0xf1e4c8);
@@ -775,6 +775,8 @@ const initToolAtom = async () => {
     const smokeMaterial = makeMaterial(0xcfd5cd, { transparent: true, opacity: 0.46, roughness: 0.95 });
     const emberMaterial = makeMaterial(0xff4932, { emissive: 0xff2a1c, emissiveIntensity: 0.7 });
     const flameMaterial = makeMaterial(0xff8a32, { emissive: 0xff5a22, emissiveIntensity: 0.55 });
+    const shadowMaterial = makeMaterial(0x121311, { roughness: 0.38 });
+    const glossMaterial = makeMaterial(0xffffff, { transparent: true, opacity: 0.22, roughness: 0.18 });
 
     const addMesh = (parent, geometry, material, position, scale = [1, 1, 1], rotation = [0, 0, 0]) => {
       const mesh = new THREE.Mesh(geometry, material);
@@ -787,93 +789,107 @@ const initToolAtom = async () => {
 
     const createAvatar = () => {
       const avatar = new THREE.Group();
-      avatar.scale.set(1.26, 1.26, 1.26);
-      avatar.position.set(0, -0.1, 0);
+      avatar.scale.set(1.34, 1.34, 1.34);
+      avatar.position.set(0, -0.12, 0);
 
-      const head = addMesh(avatar, new THREE.SphereGeometry(0.66, 48, 28), skinMaterial, [0, 0.13, 0.08], [0.96, 1.05, 0.82]);
+      addMesh(avatar, new THREE.CapsuleGeometry(0.44, 0.82, 16, 40), blackMaterial, [0, -0.9, 0.04], [1.1, 1, 0.78]);
+      addMesh(avatar, new THREE.ConeGeometry(0.64, 0.96, 40), blackMaterial, [0, -1.06, 0.08], [1.08, 1, 0.72], [0, 0, Math.PI / 12]);
+      addMesh(avatar, new THREE.TorusGeometry(0.46, 0.018, 8, 64), goldMaterial, [0, -1.51, 0.03], [1.28, 0.22, 0.36]);
+      addMesh(avatar, new THREE.SphereGeometry(0.23, 24, 12), shadowMaterial, [-0.22, -1.65, 0.2], [1.24, 0.38, 0.72], [0, 0, 0.04]);
+      addMesh(avatar, new THREE.SphereGeometry(0.23, 24, 12), shadowMaterial, [0.22, -1.65, 0.2], [1.24, 0.38, 0.72], [0, 0, -0.04]);
+
+      addMesh(avatar, new THREE.SphereGeometry(0.78, 48, 24), blackMaterial, [0, 0.28, -0.22], [1.08, 1.28, 0.56]);
+      addMesh(avatar, new THREE.SphereGeometry(0.38, 32, 18), blackMaterial, [-0.62, -0.28, 0.1], [0.56, 1.95, 0.32], [0, 0, -0.08]);
+      addMesh(avatar, new THREE.SphereGeometry(0.38, 32, 18), blackMaterial, [0.62, -0.28, 0.1], [0.56, 1.95, 0.32], [0, 0, 0.08]);
+      addMesh(avatar, new THREE.BoxGeometry(0.055, 1.32, 0.04), goldMaterial, [-0.78, -0.25, 0.36], [1, 1, 1], [0, 0, -0.06]);
+      addMesh(avatar, new THREE.BoxGeometry(0.055, 1.32, 0.04), goldMaterial, [0.78, -0.25, 0.36], [1, 1, 1], [0, 0, 0.06]);
+      addMesh(avatar, new THREE.TetrahedronGeometry(0.36, 0), blackMaterial, [-0.52, 0.92, 0.08], [0.74, 1.24, 0.48], [0.18, 0.16, -0.34]);
+      addMesh(avatar, new THREE.TetrahedronGeometry(0.36, 0), blackMaterial, [0.52, 0.92, 0.08], [0.74, 1.24, 0.48], [0.18, -0.16, 0.34]);
+      addMesh(avatar, new THREE.SphereGeometry(0.1, 20, 12), leafMaterial, [0, 1.18, -0.34], [1.18, 0.72, 1]);
+      addMesh(avatar, new THREE.SphereGeometry(0.12, 20, 12), glossMaterial, [0.31, 0.1, -0.57], [0.34, 1.35, 0.08], [0.18, 0, -0.16]);
+      addMesh(avatar, new THREE.SphereGeometry(0.08, 16, 8), glossMaterial, [-0.26, -1.0, 0.44], [0.46, 0.22, 0.06], [0, 0, -0.24]);
+
+      const head = addMesh(avatar, new THREE.SphereGeometry(0.56, 48, 28), skinMaterial, [0, 0.18, 0.22], [0.96, 1.06, 0.82]);
       head.name = "CONTA avatar head";
+      addMesh(avatar, new THREE.SphereGeometry(0.48, 32, 18), whiteMaterial, [0, -0.08, 0.66], [1.3, 0.5, 0.14]);
+      addMesh(avatar, new THREE.TorusGeometry(0.39, 0.022, 8, 54), lineMaterial, [0, -0.08, 0.68], [1.46, 0.58, 0.11]);
 
-      addMesh(avatar, new THREE.TorusGeometry(0.52, 0.018, 10, 80), haloMaterial, [0, 1.24, -0.02], [1.1, 0.26, 1], [0.18, 0.02, 0]);
-      addMesh(avatar, new THREE.SphereGeometry(0.7, 36, 20), blackMaterial, [0, 0.44, -0.24], [1.38, 0.72, 0.36]);
-      addMesh(avatar, new THREE.SphereGeometry(0.66, 36, 20), veilMaterial, [0, 0.5, -0.07], [1.14, 0.58, 0.42]);
-      addMesh(avatar, new THREE.CylinderGeometry(0.52, 0.66, 0.28, 48), hatMaterial, [0, 0.85, 0.03], [1.03, 0.82, 0.94]);
-      addMesh(avatar, new THREE.CylinderGeometry(0.84, 0.84, 0.07, 56), veilMaterial, [0, 0.64, 0.18], [1.16, 0.66, 0.58]);
-      addMesh(avatar, new THREE.CylinderGeometry(0.85, 0.85, 0.025, 56), veilTrimMaterial, [0, 0.59, 0.2], [1.18, 0.66, 0.58]);
-      addMesh(avatar, new THREE.BoxGeometry(0.58, 0.075, 0.12), blackMaterial, [0, 0.73, 0.57], [1, 1, 1], [0, 0, 0.02]);
+      addMesh(avatar, new THREE.CylinderGeometry(0.55, 0.6, 0.18, 48), veilMaterial, [0, 0.74, 0.12], [1.02, 0.82, 0.92]);
+      addMesh(avatar, new THREE.CylinderGeometry(0.76, 0.76, 0.06, 48), veilMaterial, [0, 0.58, 0.26], [1.12, 0.58, 0.44]);
+      addMesh(avatar, new THREE.BoxGeometry(0.58, 0.06, 0.1), lineMaterial, [0, 0.66, 0.66], [1, 1, 1]);
+      addMesh(avatar, new THREE.TorusGeometry(0.52, 0.018, 10, 80), haloMaterial, [0, 1.35, 0.02], [1.08, 0.26, 1], [0.17, 0.02, 0]);
 
-      addMesh(avatar, new THREE.SphereGeometry(0.5, 32, 18), hairMaterial, [-0.52, -0.14, -0.05], [0.42, 1.76, 0.34]);
-      addMesh(avatar, new THREE.SphereGeometry(0.5, 32, 18), hairMaterial, [0.52, -0.14, -0.05], [0.42, 1.76, 0.34]);
-      addMesh(avatar, new THREE.ConeGeometry(0.26, 1.22, 24), hairMaterial, [-0.6, -0.58, 0.04], [0.68, 1, 0.36], [0, 0, 0.14]);
-      addMesh(avatar, new THREE.ConeGeometry(0.26, 1.22, 24), hairMaterial, [0.6, -0.58, 0.04], [0.68, 1, 0.36], [0, 0, -0.14]);
-      addMesh(avatar, new THREE.SphereGeometry(0.45, 30, 16), hairMaterial, [0, 0.38, 0.18], [1.08, 0.36, 0.34]);
+      addMesh(avatar, new THREE.SphereGeometry(0.48, 30, 16), hairMaterial, [0, 0.32, 0.34], [1.08, 0.36, 0.35]);
       [
-        [-0.38, 0.3, 0.5, -0.36],
-        [-0.16, 0.24, 0.56, -0.13],
-        [0.14, 0.24, 0.56, 0.13],
-        [0.38, 0.3, 0.5, 0.36],
+        [-0.34, 0.25, 0.61, -0.34],
+        [-0.12, 0.2, 0.66, -0.12],
+        [0.12, 0.2, 0.66, 0.12],
+        [0.34, 0.25, 0.61, 0.34],
       ].forEach(([x, y, z, rz]) => {
-        addMesh(avatar, new THREE.ConeGeometry(0.13, 0.46, 18), hairMaterial, [x, y, z], [1, 1, 0.58], [0, 0, rz]);
+        addMesh(avatar, new THREE.ConeGeometry(0.12, 0.43, 20), hairMaterial, [x, y, z], [1, 1, 0.56], [0, 0, rz]);
       });
-
-      addMesh(avatar, new THREE.SphereGeometry(0.4, 30, 16), veilMaterial, [-0.72, -0.18, -0.04], [0.52, 1.96, 0.32]);
-      addMesh(avatar, new THREE.SphereGeometry(0.4, 30, 16), veilMaterial, [0.72, -0.18, -0.04], [0.52, 1.96, 0.32]);
-      addMesh(avatar, new THREE.BoxGeometry(0.06, 1.2, 0.038), veilTrimMaterial, [-0.83, -0.12, 0.27], [1, 1, 1], [0, 0, -0.07]);
-      addMesh(avatar, new THREE.BoxGeometry(0.06, 1.2, 0.038), veilTrimMaterial, [0.83, -0.12, 0.27], [1, 1, 1], [0, 0, 0.07]);
-      addMesh(avatar, new THREE.TetrahedronGeometry(0.32, 0), blackMaterial, [-0.74, 0.46, 0.1], [0.6, 1.08, 0.32], [0.1, 0.14, -0.36]);
-      addMesh(avatar, new THREE.TetrahedronGeometry(0.32, 0), blackMaterial, [0.74, 0.46, 0.1], [0.6, 1.08, 0.32], [0.1, -0.14, 0.36]);
-
-      addMesh(avatar, new THREE.SphereGeometry(0.52, 32, 18), whiteMaterial, [0, -0.17, 0.58], [1.28, 0.5, 0.16]);
-      addMesh(avatar, new THREE.TorusGeometry(0.4, 0.026, 8, 54), lineMaterial, [0, -0.17, 0.6], [1.48, 0.58, 0.12]);
+      addMesh(avatar, new THREE.SphereGeometry(0.3, 24, 12), hairMaterial, [-0.46, -0.16, 0.2], [0.58, 1.55, 0.3]);
+      addMesh(avatar, new THREE.SphereGeometry(0.3, 24, 12), hairMaterial, [0.46, -0.16, 0.2], [0.58, 1.55, 0.3]);
 
       [
-        [-0.29, 0.13, 0.72],
-        [0.29, 0.13, 0.72],
+        [-0.27, 0.12, 0.78],
+        [0.27, 0.12, 0.78],
       ].forEach(([x, y, z]) => {
-        addMesh(avatar, new THREE.SphereGeometry(0.25, 36, 18), whiteMaterial, [x, y, z], [0.82, 1.44, 0.08]);
-        addMesh(avatar, new THREE.TorusGeometry(0.25, 0.032, 10, 48), lineMaterial, [x, y, z + 0.02], [0.82, 1.44, 0.08]);
-        addMesh(avatar, new THREE.SphereGeometry(0.058, 24, 12), lineMaterial, [x + 0.035, y - 0.035, z + 0.048], [1, 1, 0.35]);
-        addMesh(avatar, new THREE.SphereGeometry(0.03, 16, 8), whiteMaterial, [x - 0.045, y + 0.07, z + 0.078], [1, 1, 0.35]);
+        addMesh(avatar, new THREE.SphereGeometry(0.22, 36, 18), whiteMaterial, [x, y, z], [0.82, 1.38, 0.08]);
+        addMesh(avatar, new THREE.TorusGeometry(0.22, 0.03, 10, 48), lineMaterial, [x, y, z + 0.02], [0.82, 1.38, 0.08]);
       });
-
-      addMesh(avatar, new THREE.BoxGeometry(0.35, 0.045, 0.05), lineMaterial, [-0.25, 0.4, 0.72], [1, 1, 1], [0, 0, -0.1]);
-      addMesh(avatar, new THREE.BoxGeometry(0.35, 0.045, 0.05), lineMaterial, [0.25, 0.4, 0.72], [1, 1, 1], [0, 0, 0.1]);
+      addMesh(avatar, new THREE.BoxGeometry(0.34, 0.04, 0.05), lineMaterial, [-0.25, 0.39, 0.77], [1, 1, 1], [0, 0, -0.1]);
+      addMesh(avatar, new THREE.BoxGeometry(0.34, 0.04, 0.05), lineMaterial, [0.25, 0.39, 0.77], [1, 1, 1], [0, 0, 0.1]);
 
       [
-        [-0.2, -0.37, 0.91, 0.68, [-0.33, -0.53, 0.95]],
-        [0, -0.43, 0.92, 0, [0, -0.66, 0.96]],
-        [0.2, -0.37, 0.91, -0.68, [0.33, -0.53, 0.95]],
+        [-0.16, -0.2, 0.9, 0.72, [-0.26, -0.31, 0.94]],
+        [0, -0.24, 0.92, 0, [0, -0.4, 0.96]],
+        [0.16, -0.2, 0.9, -0.72, [0.26, -0.31, 0.94]],
       ].forEach(([x, y, z, rz, tip]) => {
-        addMesh(avatar, new THREE.CylinderGeometry(0.04, 0.04, 0.42, 18), lineMaterial, [x, y, z - 0.02], [1, 1, 1], [0, 0, rz]);
-        addMesh(avatar, new THREE.CylinderGeometry(0.027, 0.027, 0.39, 18), whiteMaterial, [x, y, z + 0.02], [1, 1, 1], [0, 0, rz]);
-        addMesh(avatar, new THREE.CylinderGeometry(0.029, 0.029, 0.09, 18), filterMaterial, tip, [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.026, 0.026, 0.3, 18), lineMaterial, [x, y, z - 0.018], [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.018, 0.018, 0.27, 18), whiteMaterial, [x, y, z + 0.018], [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.019, 0.019, 0.07, 18), filterMaterial, tip, [1, 1, 1], [0, 0, rz]);
       });
-      addMesh(avatar, new THREE.SphereGeometry(0.044, 16, 10), emberMaterial, [0.4, -0.58, 0.99], [1, 0.78, 0.45]);
-      addMesh(avatar, new THREE.TorusGeometry(0.052, 0.006, 8, 24), smokeMaterial, [0.47, -0.39, 0.98], [1, 0.68, 0.28], [0.3, 0.12, 0.45]);
-      addMesh(avatar, new THREE.TorusGeometry(0.076, 0.006, 8, 28), smokeMaterial, [0.52, -0.21, 0.94], [1, 0.72, 0.28], [0.36, 0.1, 0.34]);
+      addMesh(avatar, new THREE.SphereGeometry(0.032, 16, 10), emberMaterial, [0.31, -0.34, 0.98], [1, 0.78, 0.45]);
+      addMesh(avatar, new THREE.TorusGeometry(0.048, 0.005, 8, 24), smokeMaterial, [0.42, -0.18, 0.96], [1, 0.68, 0.28], [0.3, 0.12, 0.45]);
 
-      addMesh(avatar, new THREE.ConeGeometry(0.62, 1.0, 12), blackMaterial, [0, -1.08, 0], [1.06, 1, 0.58], [0, 0, Math.PI / 12]);
-      addMesh(avatar, new THREE.TorusGeometry(0.47, 0.018, 8, 56), goldMaterial, [0, -1.48, 0.03], [1.2, 0.22, 0.36]);
-      addMesh(avatar, new THREE.SphereGeometry(0.3, 24, 12), collarMaterial, [-0.23, -0.64, 0.36], [0.62, 0.34, 0.08], [0, 0, -0.22]);
-      addMesh(avatar, new THREE.SphereGeometry(0.3, 24, 12), collarMaterial, [0.23, -0.64, 0.36], [0.62, 0.34, 0.08], [0, 0, 0.22]);
-      addMesh(avatar, new THREE.BoxGeometry(0.085, 0.56, 0.08), collarMaterial, [-0.15, -0.95, 0.37], [1, 1, 1], [0, 0, -0.43]);
-      addMesh(avatar, new THREE.BoxGeometry(0.085, 0.56, 0.08), collarMaterial, [0.15, -0.95, 0.37], [1, 1, 1], [0, 0, 0.43]);
+      addMesh(avatar, new THREE.SphereGeometry(0.26, 24, 12), collarMaterial, [-0.2, -0.58, 0.42], [0.62, 0.3, 0.08], [0, 0, -0.22]);
+      addMesh(avatar, new THREE.SphereGeometry(0.26, 24, 12), collarMaterial, [0.2, -0.58, 0.42], [0.62, 0.3, 0.08], [0, 0, 0.22]);
+      addMesh(avatar, new THREE.SphereGeometry(0.12, 18, 10), leafMaterial, [-0.08, -0.66, 0.5], [1.1, 0.55, 0.16], [0, 0, -0.4]);
+      addMesh(avatar, new THREE.SphereGeometry(0.12, 18, 10), leafMaterial, [0.08, -0.66, 0.5], [1.1, 0.55, 0.16], [0, 0, 0.4]);
+      addMesh(avatar, new THREE.BoxGeometry(0.08, 0.54, 0.08), collarMaterial, [-0.13, -0.9, 0.43], [1, 1, 1], [0, 0, -0.42]);
+      addMesh(avatar, new THREE.BoxGeometry(0.08, 0.54, 0.08), collarMaterial, [0.13, -0.9, 0.43], [1, 1, 1], [0, 0, 0.42]);
 
       [
-        [-0.66, -0.78, 0.28, -0.58],
-        [0.66, -0.78, 0.28, 0.58],
+        [-0.58, -0.68, 0.33, -0.24],
+        [0.58, -0.68, 0.33, 0.24],
       ].forEach(([x, y, z, rz]) => {
-        addMesh(avatar, new THREE.CylinderGeometry(0.045, 0.055, 0.56, 18), blackMaterial, [x * 0.82, y + 0.08, z], [1, 1, 1], [0, 0, rz]);
-        addMesh(avatar, new THREE.SphereGeometry(0.13, 18, 12), skinMaterial, [x, y, z + 0.04]);
-        addMesh(avatar, new THREE.TorusGeometry(0.075, 0.012, 8, 20), goldMaterial, [x, y + 0.06, z + 0.07], [1, 0.42, 0.22]);
-        addMesh(avatar, new THREE.CylinderGeometry(0.045, 0.045, 0.28, 18), candleMaterial, [x, y + 0.2, z + 0.07]);
-        addMesh(avatar, new THREE.CylinderGeometry(0.012, 0.012, 0.08, 8), lineMaterial, [x, y + 0.36, z + 0.08]);
-        addMesh(avatar, new THREE.ConeGeometry(0.055, 0.18, 18), flameMaterial, [x, y + 0.42, z + 0.08]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.07, 0.075, 0.42, 18), blackMaterial, [x * 0.84, y + 0.04, z - 0.05], [1, 1, 1], [0, 0, rz]);
+        addMesh(avatar, new THREE.SphereGeometry(0.14, 18, 12), skinMaterial, [x, y, z + 0.06]);
+        addMesh(avatar, new THREE.TorusGeometry(0.074, 0.012, 8, 24), goldMaterial, [x, y + 0.11, z + 0.08], [1, 0.42, 0.22]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.045, 0.045, 0.32, 20), candleMaterial, [x, y + 0.26, z + 0.08]);
+        addMesh(avatar, new THREE.CylinderGeometry(0.012, 0.012, 0.08, 8), lineMaterial, [x, y + 0.45, z + 0.09]);
+        addMesh(avatar, new THREE.ConeGeometry(0.06, 0.18, 20), flameMaterial, [x, y + 0.52, z + 0.09]);
       });
 
-      addMesh(avatar, new THREE.CylinderGeometry(0.025, 0.025, 1.46, 10), lineMaterial, [-1.02, -0.32, -0.02], [1, 1, 1], [0, 0, -0.08]);
-      addMesh(avatar, new THREE.SphereGeometry(0.13, 18, 10), leafMaterial, [-1.1, 0.2, 0.04], [1.25, 0.58, 0.12], [0, 0, -0.55]);
-      addMesh(avatar, new THREE.SphereGeometry(0.13, 18, 10), leafMaterial, [-0.94, 0.27, 0.04], [1.25, 0.58, 0.12], [0, 0, 0.55]);
-      addMesh(avatar, new THREE.SphereGeometry(0.045, 14, 8), whiteMaterial, [-1.02, 0.08, 0.08], [1, 1, 0.4]);
+      addMesh(avatar, new THREE.CylinderGeometry(0.025, 0.025, 1.38, 10), lineMaterial, [-0.94, -0.26, -0.02], [1, 1, 1], [0, 0, -0.08]);
+      addMesh(avatar, new THREE.SphereGeometry(0.12, 18, 10), leafMaterial, [-1.04, 0.18, 0.03], [1.24, 0.58, 0.12], [0, 0, -0.56]);
+      addMesh(avatar, new THREE.SphereGeometry(0.12, 18, 10), leafMaterial, [-0.88, 0.25, 0.03], [1.24, 0.58, 0.12], [0, 0, 0.56]);
+      addMesh(avatar, new THREE.SphereGeometry(0.07, 16, 8), whiteMaterial, [-0.92, 0.16, 0.13], [1.1, 1.1, 0.35]);
+      addMesh(avatar, new THREE.SphereGeometry(0.04, 12, 8), goldMaterial, [-0.92, 0.16, 0.17], [1, 1, 0.3]);
+
+      [
+        [0.46, -0.2, -0.47],
+        [0.5, -0.42, -0.48],
+        [0.53, -0.64, -0.47],
+        [0.54, -0.86, -0.45],
+        [0.5, -1.07, -0.42],
+      ].forEach(([x, y, z], index) => {
+        addMesh(avatar, new THREE.SphereGeometry(0.095, 14, 8), hairMaterial, [x, y, z], [0.9, 1.08, 0.82]);
+        if (index % 2 === 0) {
+          addMesh(avatar, new THREE.TorusGeometry(0.075, 0.007, 6, 18), filterMaterial, [x, y - 0.02, z], [1, 0.4, 0.28], [0.1, 0.3, 0.2]);
+        }
+      });
 
       return avatar;
     };
@@ -886,46 +902,46 @@ const initToolAtom = async () => {
         name: "IDA Pro",
         phase: 0,
         speed: 0.72,
-        radius: 2.34,
+        radius: 3.06,
         rotation: [1.18, 0.18, 0.22],
         texture: idaTexture,
-        scale: 0.78,
+        scale: 0.64,
       },
       {
         name: "Ghidra",
         phase: 2.15,
         speed: 0.62,
-        radius: 2.28,
+        radius: 3.02,
         rotation: [0.42, 1.05, -0.36],
         texture: ghidraTexture,
-        scale: 0.86,
+        scale: 0.7,
       },
       {
         name: "Blender",
         phase: 4.18,
         speed: 0.66,
-        radius: 2.34,
+        radius: 3.08,
         rotation: [1.46, -0.62, 0.78],
         texture: blenderTexture,
-        scale: 0.76,
+        scale: 0.62,
       },
       {
         name: "x64dbg",
         phase: 1.2,
         speed: 0.58,
-        radius: 2.7,
+        radius: 3.36,
         rotation: [0.92, -0.82, -0.52],
         texture: x64dbgTexture,
-        scale: 0.68,
+        scale: 0.56,
       },
       {
         name: "OllyDbg",
         phase: 3.35,
         speed: 0.54,
-        radius: 2.64,
+        radius: 3.3,
         rotation: [1.12, 0.72, -0.95],
         texture: ollydbgTexture,
-        scale: 0.72,
+        scale: 0.58,
         scaleX: 0.76,
         scaleY: 1.0,
       },
@@ -970,7 +986,7 @@ const initToolAtom = async () => {
       const time = clock.getElapsedTime();
       group.rotation.y = Math.sin(time * 0.22) * 0.12;
       group.rotation.x = Math.sin(time * 0.18) * 0.06;
-      nucleus.rotation.y = time * 0.82;
+      nucleus.rotation.y = time * 0.36;
       nucleus.position.y = -0.1 + Math.sin(time * 1.2) * 0.035;
 
       tools.forEach((tool) => {
