@@ -1,1 +1,45 @@
-[]
+[
+  {
+    "id": "20260613-200159-2011-bubblefighter",
+    "date": "2026.04.01",
+    "tag": "2011",
+    "title": "2011 BubbleFighter",
+    "body": "While working on BFZ, I came across some interesting images.\nOne of them contained the word \"KAMIKAZE\" (Divine Wind / God's Storm). I'm not entirely sure why that term was used.\nStill, it feels good to see that at least part of my childhood memories has been recreated.\n\n在开发 BFZ 的过程中，我发现了一些很有意思的图片。\n其中有一张出现了“KAMIKAZE”（神风、神之风暴）这个词。我至今也不太确定当初为什么会使用这样的名称。\n不过，能够将自己记忆中的一部分内容重新实现出来，心里还是感到很开心。\n\nBFZ 작업을 하며 신기한 이미지들이 있었습니다. KAMIKAZE (신의 폭풍,바람) 왜 이런 단어를 사용했는지 확실하게 모르겠습니다.\n그래도 제 추억이 어느정도 구현되어 기분은 좋네요.",
+    "media": {
+      "type": "gallery",
+      "caption": "",
+      "items": [
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200159-01.png",
+          "alt": "2011 BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200159-02.png",
+          "alt": "2011 BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200159-03.png",
+          "alt": "2011 BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200159-04.jpg",
+          "alt": "2011 BubbleFighter",
+          "caption": ""
+        },
+        {
+          "type": "image",
+          "src": "assets/blog/20260613-200159-05.jpg",
+          "alt": "2011 BubbleFighter",
+          "caption": ""
+        }
+      ]
+    }
+  }
+]
