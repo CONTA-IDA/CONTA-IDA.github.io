@@ -38,7 +38,7 @@ const translations = {
     actionAbout: "소개 보기",
     actionSetup: "셋업 보기",
     actionGithub: "GitHub로 연락",
-    actionDiscord: "Discord로 연락",
+    actionProton: "Proton Mail로 연락",
     homeEyebrow: "Reverse Engineering / Tooling / Game Revival",
     homeLede:
       "바이너리 동작을 추적하고, 분석 도구를 만들며, 사라진 게임의 조작감과 구조를 클린룸 방식으로 재구현합니다.",
@@ -62,7 +62,8 @@ const translations = {
     workflowTrace: "동작을 관찰하고 함수 흐름, 문자열, 상태 변화를 기록합니다.",
     workflowAutomate: "반복 분석은 스크립트와 작은 CLI 도구로 줄입니다.",
     workflowRebuild: "핵심 규칙과 조작감을 직접 구현해 프로토타입으로 검증합니다.",
-    workflowModel: "원본 리소스 없이 필요한 대체 에셋을 새로 만들어 검증합니다.",
+    workflowModel:
+      "원본 리소스에 의존하지 않고 클라이언트 기반 프로토타입에 필요한 대체 에셋과 표현을 설계합니다.",
     projectsKicker: "Reverse / Tooling / Revival",
     projectsTitle: "프로젝트",
     projectsLede: "분석 노트, 자동화 도구, 레거시 게임 재구현 실험의 흐름과 결과를 정리합니다.",
@@ -105,7 +106,7 @@ const translations = {
     contactKicker: "연락",
     contactTitle: "의견을 보내주세요",
     contactLede:
-      "리버스 엔지니어링, 분석 자동화, 레거시 게임 재구현에 대한 의견은 GitHub나 Discord로 보내 주세요.",
+      "리버스 엔지니어링, 분석 자동화, 레거시 게임 재구현에 대한 의견은 GitHub 또는 Proton Mail로 보내 주세요.",
     blogKicker: "Work Log",
     blogTitle: "작업 로그",
     blogLede:
@@ -128,7 +129,7 @@ const translations = {
     actionAbout: "About",
     actionSetup: "Setup",
     actionGithub: "Contact on GitHub",
-    actionDiscord: "Contact on Discord",
+    actionProton: "Contact by Proton Mail",
     homeEyebrow: "Reverse Engineering / Tooling / Game Revival",
     homeLede:
       "I trace binary behavior, build analysis tools, and recreate discontinued game systems through clean-room prototypes.",
@@ -152,7 +153,8 @@ const translations = {
     workflowTrace: "Observe behavior and document function flow, strings, and state changes.",
     workflowAutomate: "Reduce repeated analysis with scripts and small CLI tools.",
     workflowRebuild: "Implement core rules and game feel as testable prototypes.",
-    workflowModel: "Create replacement assets for testing instead of using original resources.",
+    workflowModel:
+      "Design replacement assets and presentation for client-based prototypes without relying on original resources.",
     projectsKicker: "Reverse / Tooling / Revival",
     projectsTitle: "Projects",
     projectsLede: "Analysis notes, automation tools, and clean-room experiments for legacy game systems.",
@@ -195,7 +197,7 @@ const translations = {
     contactKicker: "Contact",
     contactTitle: "Send feedback",
     contactLede:
-      "For feedback on reverse engineering, analysis automation, or legacy game recreation, contact me on GitHub or Discord.",
+      "For feedback on reverse engineering, analysis automation, or legacy game recreation, contact me on GitHub or Proton Mail.",
     blogKicker: "Work Log",
     blogTitle: "Work log",
     blogLede:
@@ -218,7 +220,7 @@ const translations = {
     actionAbout: "查看介绍",
     actionSetup: "查看设备",
     actionGithub: "通过 GitHub 联系",
-    actionDiscord: "通过 Discord 联系",
+    actionProton: "通过 Proton Mail 联系",
     homeEyebrow: "逆向工程 / 工具开发 / 游戏复现",
     homeLede: "我追踪二进制行为，编写分析工具，并用净室原型复现停服游戏的手感和结构。",
     homeFocusTooling: "Python 自动化",
@@ -239,7 +241,7 @@ const translations = {
     workflowTrace: "观察行为，并记录函数流、字符串和状态变化。",
     workflowAutomate: "用脚本和小型 CLI 工具减少重复分析。",
     workflowRebuild: "把核心规则和操作手感做成可验证的原型。",
-    workflowModel: "不使用原始资源，改用新制作的替代资源进行验证。",
+    workflowModel: "不依赖原始资源，为基于客户端的原型设计替代资源和表现方式。",
     projectsKicker: "Reverse / Tooling / Revival",
     projectsTitle: "项目",
     projectsLede: "这里整理分析笔记、自动化工具，以及老游戏系统的净室复现实验。",
@@ -281,7 +283,7 @@ const translations = {
     setupLaptopUse: "移动分析笔记、构建检查和研究工作区",
     contactKicker: "联系",
     contactTitle: "发送你的想法",
-    contactLede: "如果你对逆向工程、分析自动化或老游戏复现有建议，可以通过 GitHub 或 Discord 联系我。",
+    contactLede: "如果你对逆向工程、分析自动化或老游戏复现有建议，可以通过 GitHub 或 Proton Mail 联系我。",
     blogKicker: "Work Log",
     blogTitle: "工作日志",
     blogLede: "CONTA 的个人工作日志，用文字、图片和视频记录逆向过程、资源制作和原型进展。",
@@ -315,7 +317,7 @@ const pageMeta = {
     },
     contact: {
       title: "연락 | CONTA",
-      description: "CONTA와 연결할 수 있는 GitHub와 Discord 연락 페이지입니다.",
+      description: "CONTA와 연결할 수 있는 GitHub와 Proton Mail 연락 페이지입니다.",
     },
   },
   en: {
@@ -341,7 +343,7 @@ const pageMeta = {
     },
     contact: {
       title: "Contact | CONTA",
-      description: "GitHub and Discord contact direction for CONTA.",
+      description: "GitHub and Proton Mail contact direction for CONTA.",
     },
   },
   zh: {
@@ -367,7 +369,7 @@ const pageMeta = {
     },
     contact: {
       title: "联系 | CONTA",
-      description: "CONTA 的 GitHub 与 Discord 联系页面。",
+      description: "CONTA 的 GitHub 与 Proton Mail 联系页面。",
     },
   },
 };
